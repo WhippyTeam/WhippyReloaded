@@ -10,7 +10,7 @@
     <version>1.0</version>
   </parent>
 
-  <artifactId>WhippyTools</artifactId>
+  <artifactId>whippytools</artifactId>
 
   <dependencies>
     <dependency>
