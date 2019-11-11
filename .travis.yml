@@ -1,0 +1,18 @@
+language: java
+dist: trusty
+sudo: false
+
+before_install:
+  - java -version
+  - echo JAVA_HOME = ${JAVA_HOME}
+  - echo PATH = ${PATH}
+
+install: script/install
+script: script/script
+
+jdk:
+  - openjdk8
+  - oraclejdk8
+
+notifications:
+  email: false

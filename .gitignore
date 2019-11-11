@@ -1,0 +1,20 @@
+### INTELLIJ FILES ###
+.idea/
+*.iml
+
+### BUILD FILES ###
+target/
+dependency-reduced-pom.xml
+
+### JAVA FILES ###
+*.class
+*.jar
+
+### LOG FILES ###
+*.log
+hs_err_pid*
+
+### ARCHIVE FILES ###
+*.rar
+*.zip
+*.tar.gz
