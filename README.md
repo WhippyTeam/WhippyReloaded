@@ -18,8 +18,8 @@
 <hr>
 
 <p align="center">
-Whippy tools is a minecraft plugin which adds a lot of commands and other cool functionalities.  
-We are seeking to make this plugin as customizable as possible.
+<i><b>WhippyReloaded</b></i> is a minecraft plugin originally came from old, abandoned plugin <i>WhippyTools</i> which adds a lot of commands and other helpful functionalities.  
+<br>In our intention we want to make this plugin as customizable as possible.
 </p>
 
 #### 🛠️ Under maintenance!
