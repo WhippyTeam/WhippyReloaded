@@ -4,8 +4,8 @@
     <a href="https://travis-ci.org/WhippyTeam/WhippyReloaded">
         <img src="https://img.shields.io/travis/WhippyTeam/WhippyReloaded?style=flat-square" alt="Build status">
     </a>
-    <a href="https://app.codacy.com/manual/WhippyTeam/WhippyReloaded/dashboard?bid=15115611">
-        <img src="https://img.shields.io/codacy/grade/90f55c5116904c1f8861ec7d86a18bc9?style=flat-square" alt="Code Quality">
+    <a href="https://www.codefactor.io/repository/github/whippyteam/whippyreloaded">
+    <img src="https://img.shields.io/codefactor/grade/github/WhippyTeam/WhippyReloaded?style=flat-square" alt="CodeFactor Code Quality">
     </a>
     <a href="https://img.shields.io/github/issues/WhippyTeam/WhippyReloaded?style=flat-square">
         <img src="https://img.shields.io/github/issues/WhippyTeam/WhippyReloaded?style=flat-square" alt="Issues">
