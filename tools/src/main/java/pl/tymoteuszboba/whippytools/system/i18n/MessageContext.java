@@ -1,7 +1,7 @@
 package pl.tymoteuszboba.whippytools.system.i18n;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import pl.tymoteuszboba.whippytools.WhippyTools;
@@ -15,13 +15,15 @@ public class MessageContext {
 
     private char colorPrefix = '&';
 
-    MessageContext(@NotNull WhippyTools plugin, String key) {
+    MessageContext(final WhippyTools plugin, String key) {
+        Validate.notNull(plugin, "Plugin cannot be null!");
         this.value = plugin.getConfig().getString(this.locale.name() + "." + key); //Temporary
 
         //TODO the way of getting a string from config should be changed when we will implement Diorite Configs.
     }
 
-    MessageContext(@NotNull WhippyTools plugin, String key, Locale locale) {
+    MessageContext(final WhippyTools plugin, String key, Locale locale) {
+        Validate.notNull(plugin, "Plugin cannot be null!");
         this.value = plugin.getConfig().getString(locale.name() + "." + key); //Temporary.
         //TODO the way of getting a string from config should be changed when we will implement Diorite Configs.
     }
