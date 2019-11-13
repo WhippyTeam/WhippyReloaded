@@ -92,6 +92,9 @@ public class CompletedMessage {
                     throw new IllegalArgumentException(
                         "For MessageTarget.TITLE_AND_SUBTITLE secondKey cannot be null!");
                 }
+            default:
+                throw new UnsupportedOperationException("If you want to use MessageTarget.CHAT, "
+                    + "you should use toAllPlayers(Player) method!");
         }
     }
 
