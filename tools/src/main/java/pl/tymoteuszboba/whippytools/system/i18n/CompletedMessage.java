@@ -3,7 +3,6 @@ package pl.tymoteuszboba.whippytools.system.i18n;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import pl.tymoteuszboba.whippytools.system.i18n.enums.Locale;
 import pl.tymoteuszboba.whippytools.system.i18n.enums.MessageTarget;
 
 public class CompletedMessage {
@@ -11,23 +10,20 @@ public class CompletedMessage {
     private final String message;
     private String secondMessage;
 
-    private final Locale locale;
     private char colorPrefix;
 
     private MessageTarget target;
 
-    public CompletedMessage(String message, Locale locale, MessageTarget target, char colorPrefix) {
+    public CompletedMessage(String message, MessageTarget target, char colorPrefix) {
         this.message = message;
-        this.locale = locale;
         this.colorPrefix = colorPrefix;
         this.target = target;
     }
 
-    public CompletedMessage(String message, String secondMessage, Locale locale,
+    public CompletedMessage(String firstValue, String secondValue,
         MessageTarget target, char colorPrefix) {
-        this.message = message;
-        this.secondMessage = secondMessage;
-        this.locale = locale;
+        this.message = firstValue;
+        this.secondMessage = secondValue;
         this.colorPrefix = colorPrefix;
         this.target = target;
     }
