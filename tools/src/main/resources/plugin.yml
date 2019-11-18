@@ -1,0 +1,8 @@
+name: "WhippyTools"
+
+version: "1.0"
+api-version: "1.14"
+
+main: pl.tymoteuszboba.whippytools.WhippyTools
+
+author: WhippyTeam
