@@ -21,8 +21,15 @@
 
   <repositories>
     <repository>
+      <name>Spigot repository</name>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+
+    <repository>
+      <name>Diorite repository</name>
+      <id>diorite-repo</id>
+      <url>https://repo.diorite.org/repository/diorite/</url>
     </repository>
   </repositories>
 
@@ -32,6 +39,12 @@
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
         <version>1.14.4-R0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hjson</groupId>
+        <artifactId>hjson</artifactId>
+        <version>3.0.0</version>
       </dependency>
 
       <dependency>
