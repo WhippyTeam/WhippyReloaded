@@ -29,6 +29,17 @@ public class ExtendedMessageContext {
             "Second string not found in language configuration.");
     }
 
+    public ExtendedMessageContext(final WhippyTools plugin, JsonObject from, String firstKey, String secondKey) {
+        Validate.notNull(plugin, "Plugin cannot be null!");
+        this.plugin = plugin;
+
+        this.firstValue = from.getString(firstKey,
+            "First string not found in language configuration.");
+
+        this.secondValue = from.getString(secondKey,
+            "Second string not found in language configuration.");
+    }
+
     public ExtendedMessageContext setColorPrefix(char prefix) {
         this.colorPrefix = prefix;
         return this;

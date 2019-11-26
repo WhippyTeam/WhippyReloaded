@@ -2,6 +2,7 @@ package pl.tymoteuszboba.whippytools.system.i18n;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.tymoteuszboba.whippytools.system.i18n.enums.MessageTarget;
 
@@ -31,6 +32,15 @@ public class CompletedMessage {
     public void to(Player player) {
         if (this.target == MessageTarget.CHAT) {
             player.sendMessage(ChatColor.translateAlternateColorCodes(this.colorPrefix, message));
+        } else {
+            throw new UnsupportedOperationException("If you want to use something other than "
+                + "MessageTarget.CHAT, you should use to(Player, int, int, int) method!");
+        }
+    }
+
+    public void to(CommandSender sender) {
+        if (this.target == MessageTarget.CHAT) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes(this.colorPrefix, message));
         } else {
             throw new UnsupportedOperationException("If you want to use something other than "
                 + "MessageTarget.CHAT, you should use to(Player, int, int, int) method!");

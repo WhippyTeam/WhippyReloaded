@@ -10,29 +10,34 @@ import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import org.hjson.JsonObject;
+import pl.tymoteuszboba.whippytools.WhippyTools;
 import pl.tymoteuszboba.whippytools.command.system.exception.CommandConsoleException;
 import pl.tymoteuszboba.whippytools.command.system.exception.CommandException;
 import pl.tymoteuszboba.whippytools.command.system.exception.CommandPermissionException;
 import pl.tymoteuszboba.whippytools.command.system.exception.CommandUsageException;
+import pl.tymoteuszboba.whippytools.system.i18n.MessageBundler;
+import pl.tymoteuszboba.whippytools.system.i18n.enums.MessageTarget;
 
 /**
  * BukkitCommands library, originally developed by TheMolkaPL, and partially changed by WhippyTeam.
  * @author TheMolkaPL, WhippyTeam
  */
 public class BukkitCommands extends Commands implements CommandExecutor, TabCompleter {
-    private final Plugin plugin;
+    private final WhippyTools plugin;
 
     private CommandMap bukkitCommandMap;
     private Set<HelpTopic> helpTopics = new TreeSet<>(HelpTopicComparator.helpTopicComparatorInstance());
 
-    public BukkitCommands(Plugin plugin) {
+    private JsonObject operators, errors, random;
+
+    public BukkitCommands(WhippyTools plugin) {
         this.plugin = plugin;
 
         try {
@@ -42,6 +47,11 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
         }
 
         this.plugin.getServer().getHelpMap().addTopic(this.createHelpIndex());
+
+        JsonObject language = this.plugin.getWhippyConfig().getLocaleFile();
+        this.operators = language.get("operators").asObject();
+        this.random = language.get("random").asObject();
+        this.errors = language.get("errors").asObject().get("command").asObject();
     }
 
     @Override
@@ -52,24 +62,32 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
             } else if (context.getCommand().hasPermission() && !sender.hasPermission(context.getCommand().getPermission())) {
                 throw new CommandPermissionException(context.getCommand().getPermission());
             } else if (context.getCommand().getMin() > context.getParamsLength()) {
-                throw new CommandUsageException("Zbyt malo argumentow.");
+                throw new CommandUsageException(this.errors.getString("too-few-arguments", "Too few arguments!"));
             } else {
                 context.getCommand().handleCommand(sender, context);
             }
         } catch (CommandConsoleException ex) {
-            String level = "gry";
+            String level = this.operators.getString("game", "game");
             if (ex.isConsoleLevel()) {
-                level = "konsoli";
+                level = this.operators.getString("console", "console");
             }
 
-            sender.sendMessage(ChatColor.RED + "Ta komenda moze zostac wykonana tylko z poziomu " + level + ".");
+            MessageBundler.send(this.plugin, this.errors, "only-from-device")
+                .replace("DEVICE", level)
+                .target(MessageTarget.CHAT)
+                .to(sender);
+
         } catch (CommandPermissionException ex) {
             String permission = ".";
             if (ex.getPermission() != null) {
                 permission = " - " + ex.getPermission();
             }
 
-            sender.sendMessage(ChatColor.RED + "Nie posiadasz odpowiednich uprawnien" + permission);
+            MessageBundler.send(this.plugin, this.errors, "no-permission")
+                .replace("PERMISSION", permission)
+                .target(MessageTarget.CHAT)
+                .to(sender);
+
         } catch (CommandUsageException ex) {
             if (ex.getMessage() != null) {
                 sender.sendMessage(ChatColor.RED + ex.getMessage());
@@ -80,14 +98,21 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
             if (ex.getMessage() != null) {
                 sender.sendMessage(ex.getMessage());
             } else {
-                sender.sendMessage(ChatColor.RED + "Nie udalo sie wykonac komendy, poniewaz popelniono jakis blad.");
+                MessageBundler.send(this.plugin, this.errors, "unknown-error")
+                    .target(MessageTarget.CHAT)
+                    .to(sender);
+                ex.printStackTrace();
             }
         } catch (NumberFormatException ex) {
-            sender.sendMessage(ChatColor.RED + "Musisz podac liczbe, nie ciag znakow!");
+            MessageBundler.send(this.plugin, this.errors, "number-instead-of-string")
+                .target(MessageTarget.CHAT)
+                .to(sender);
         } catch (Throwable ex) {
-            sender.sendMessage(ChatColor.RED + "Wykryto niespodziewany blad - powiadom o tym administracje!");
-            sender.sendMessage(ChatColor.RED + ex.getLocalizedMessage());
+            MessageBundler.send(this.plugin, this.errors, "unknown-error")
+                .target(MessageTarget.CHAT)
+                .to(sender);
 
+            sender.sendMessage(ChatColor.RED + ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
@@ -145,7 +170,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     private IndexHelpTopic createHelpIndex() {
         return new IndexHelpTopic(
                 this.getPluginName(),
-                "Wszystkie komendy " + this.getPluginName(),
+                this.random.getString("commandListIndex", "All Whippy commands"),
                 null,
                 this.getHelpTopics()
         );
@@ -173,7 +198,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     }
 
     private class CommandPerformer extends org.bukkit.command.Command {
-        protected CommandPerformer(String name) {
+        CommandPerformer(String name) {
             super(name);
         }
 

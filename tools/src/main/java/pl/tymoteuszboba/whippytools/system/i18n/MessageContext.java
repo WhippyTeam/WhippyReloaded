@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.hjson.JsonObject;
 import pl.tymoteuszboba.whippytools.WhippyTools;
 import pl.tymoteuszboba.whippytools.system.i18n.enums.MessageTarget;
 
@@ -16,6 +17,12 @@ public class MessageContext {
     MessageContext(final WhippyTools plugin, String key) {
         Validate.notNull(plugin, "Plugin cannot be null!");
         this.value = plugin.getWhippyConfig().getLocaleFile().getString(key,
+            "String not found in language configuration.");
+    }
+
+    MessageContext(final WhippyTools plugin, JsonObject from, String key) {
+        Validate.notNull(plugin, "Plugin cannot be null!");
+        this.value = from.getString(key,
             "String not found in language configuration.");
     }
 
