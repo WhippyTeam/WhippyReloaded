@@ -1,0 +1,8 @@
+/*
+  » WhippyTools | Configuration v1.0
+  » This file contains a configuration for WhippyTools plugin.
+*/
+
+{
+  locale: en
+}
