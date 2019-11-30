@@ -1,3 +1,20 @@
 {
-  unsupported: true
+  errors: {
+    command: {
+      only-from-device: "&cThis command could be only performed from {DEVICE}!"
+      no-permission: "&cYou don't have a {PERMISSION} permission to perform this command!"
+      too-few-arguments: "&cToo few arguments!"
+      number-instead-of-string: "&cYou need to send a number, instead of a text!"
+      unknown-error: "&cAn unknown error has been detected! Please, tell about this incident to server operator."
+    },
+  },
+
+  operators: {
+    game: "game"
+    console: "console"
+  },
+
+  random: {
+    commandListIndex: "All Whippy commands",
+    },
 }
