@@ -35,9 +35,11 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     private CommandMap bukkitCommandMap;
     private Set<HelpTopic> helpTopics = new TreeSet<>(HelpTopicComparator.helpTopicComparatorInstance());
 
-    private JsonObject operators, errors, random;
+    private JsonObject errors;
+    private JsonObject random;
+    private final ExceptionHandler exceptionHandler;
 
-    public BukkitCommands(WhippyTools plugin) {
+    public BukkitCommands(final WhippyTools plugin) {
         this.plugin = plugin;
 
         try {
@@ -47,9 +49,11 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
         }
 
         JsonObject language = this.plugin.getWhippyConfig().getLocaleFile();
-        this.operators = language.get("operators").asObject();
+        JsonObject operators = language.get("operators").asObject();
         this.random = language.get("random").asObject();
         this.errors = language.get("errors").asObject().get("command").asObject();
+
+        this.exceptionHandler = new ExceptionHandler(this.plugin, operators, this.errors);
 
         this.plugin.getServer().getHelpMap().addTopic(this.createHelpIndex());
     }
@@ -67,51 +71,17 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
                 context.getCommand().handleCommand(sender, context);
             }
         } catch (CommandConsoleException ex) {
-            String level = this.operators.getString("game", "game");
-            if (ex.isConsoleLevel()) {
-                level = this.operators.getString("console", "console");
-            }
-
-            MessageBundler.send(this.plugin, this.errors, "only-from-device")
-                .replace("DEVICE", level)
-                .target(MessageTarget.CHAT)
-                .to(sender);
+            exceptionHandler.handleException(ex, sender);
         } catch (CommandPermissionException ex) {
-            String permission = ".";
-            if (ex.getPermission() != null) {
-                permission = "'" + ex.getPermission() + "'";
-            }
-
-            MessageBundler.send(this.plugin, this.errors, "no-permission")
-                .replace("PERMISSION", permission)
-                .target(MessageTarget.CHAT)
-                .to(sender);
+            exceptionHandler.handleException(ex, sender);
         } catch (CommandUsageException ex) {
-            if (ex.getMessage() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ex.getMessage()));
-            }
-
-            sender.sendMessage(context.getCommand().getUsage());
+            exceptionHandler.handleException(ex, context, sender);
         } catch (CommandException ex) {
-            if (ex.getMessage() != null) {
-                sender.sendMessage(ex.getMessage());
-            } else {
-                MessageBundler.send(this.plugin, this.errors, "unknown-error")
-                    .target(MessageTarget.CHAT)
-                    .to(sender);
-                ex.printStackTrace();
-            }
+            exceptionHandler.handleCommandException(ex, sender);
         } catch (NumberFormatException ex) {
-            MessageBundler.send(this.plugin, this.errors, "number-instead-of-string")
-                .target(MessageTarget.CHAT)
-                .to(sender);
+            exceptionHandler.handleNumberFormatException(sender);
         } catch (Throwable ex) {
-            MessageBundler.send(this.plugin, this.errors, "unknown-error")
-                .target(MessageTarget.CHAT)
-                .to(sender);
-
-            sender.sendMessage(ChatColor.RED + ex.getLocalizedMessage());
-            ex.printStackTrace();
+            exceptionHandler.handleUnknownException(ex, sender);
         }
     }
 
@@ -208,6 +178,79 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
         @Override
         public List<String> tabComplete(CommandSender sender, String label, String[] args) throws IllegalArgumentException {
             return BukkitCommands.this.onTabComplete(sender, this, label, args);
+        }
+    }
+
+    private static class ExceptionHandler {
+
+        private WhippyTools plugin;
+        private JsonObject operators, errors;
+
+        public ExceptionHandler(final WhippyTools plugin,
+            JsonObject operators,
+            JsonObject errors) {
+            this.plugin = plugin;
+            this.operators = operators;
+            this.errors = errors;
+        }
+
+        public void handleException(CommandConsoleException exception, CommandSender sender) {
+            String level = this.operators.getString("game", "game");
+            if (exception.isConsoleLevel()) {
+                level = this.operators.getString("console", "console");
+            }
+
+            MessageBundler.send(this.plugin, this.errors, "only-from-device")
+                .replace("DEVICE", level)
+                .target(MessageTarget.CHAT)
+                .to(sender);
+        }
+
+        public void handleException(CommandPermissionException exception, CommandSender sender) {
+            String permission = ".";
+            if (exception.getPermission() != null) {
+                permission = "'" + exception.getPermission() + "'";
+            }
+
+            MessageBundler.send(this.plugin, this.errors, "no-permission")
+                .replace("PERMISSION", permission)
+                .target(MessageTarget.CHAT)
+                .to(sender);
+        }
+
+        public void handleException(CommandUsageException exception, CommandContext context,
+            CommandSender sender) {
+            if (exception.getMessage() != null) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', exception.getMessage()));
+            }
+
+            sender.sendMessage(context.getCommand().getUsage());
+        }
+
+        public void handleCommandException(CommandException exception, CommandSender sender) {
+            if (exception.getMessage() != null) {
+                sender.sendMessage(exception.getMessage());
+            } else {
+                MessageBundler.send(this.plugin, this.errors, "unknown-error")
+                    .target(MessageTarget.CHAT)
+                    .to(sender);
+                exception.printStackTrace();
+            }
+        }
+
+        public void handleNumberFormatException(CommandSender sender) {
+            MessageBundler.send(this.plugin, this.errors, "number-instead-of-string")
+                .target(MessageTarget.CHAT)
+                .to(sender);
+        }
+
+        public void handleUnknownException(Throwable exception, CommandSender sender) {
+            MessageBundler.send(this.plugin, this.errors, "unknown-error")
+                .target(MessageTarget.CHAT)
+                .to(sender);
+
+            sender.sendMessage(ChatColor.RED + exception.getLocalizedMessage());
+            exception.printStackTrace();
         }
     }
 }
