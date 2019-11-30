@@ -45,7 +45,7 @@ public class ToolsConfiguration implements Configuration {
     }
 
     public String getLocale() {
-        return this.schema.get("locale").asString();
+        return this.schema.getString("locale", "en");
     }
 
     public JsonObject getLocaleFile() {
@@ -59,9 +59,8 @@ public class ToolsConfiguration implements Configuration {
             return JsonValue.readHjson(reader).asObject();
         } catch (IOException exception) {
             exception.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     private void createLocaleFile(File file, String locale) {

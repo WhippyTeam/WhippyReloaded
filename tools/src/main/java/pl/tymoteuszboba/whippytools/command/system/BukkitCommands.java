@@ -46,19 +46,19 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
             ex.printStackTrace();
         }
 
-        this.plugin.getServer().getHelpMap().addTopic(this.createHelpIndex());
-
         JsonObject language = this.plugin.getWhippyConfig().getLocaleFile();
         this.operators = language.get("operators").asObject();
         this.random = language.get("random").asObject();
         this.errors = language.get("errors").asObject().get("command").asObject();
+
+        this.plugin.getServer().getHelpMap().addTopic(this.createHelpIndex());
     }
 
     @Override
     public void handleCommand(CommandSender sender, CommandContext context) {
         try {
             if (context.getCommand().isUserOnly() && !(sender instanceof Player)) {
-                throw new CommandConsoleException();
+                throw new CommandConsoleException(true);
             } else if (context.getCommand().hasPermission() && !sender.hasPermission(context.getCommand().getPermission())) {
                 throw new CommandPermissionException(context.getCommand().getPermission());
             } else if (context.getCommand().getMin() > context.getParamsLength()) {
@@ -76,21 +76,19 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
                 .replace("DEVICE", level)
                 .target(MessageTarget.CHAT)
                 .to(sender);
-
         } catch (CommandPermissionException ex) {
             String permission = ".";
             if (ex.getPermission() != null) {
-                permission = " - " + ex.getPermission();
+                permission = "'" + ex.getPermission() + "'";
             }
 
             MessageBundler.send(this.plugin, this.errors, "no-permission")
                 .replace("PERMISSION", permission)
                 .target(MessageTarget.CHAT)
                 .to(sender);
-
         } catch (CommandUsageException ex) {
             if (ex.getMessage() != null) {
-                sender.sendMessage(ChatColor.RED + ex.getMessage());
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ex.getMessage()));
             }
 
             sender.sendMessage(context.getCommand().getUsage());
@@ -170,7 +168,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     private IndexHelpTopic createHelpIndex() {
         return new IndexHelpTopic(
                 this.getPluginName(),
-                this.random.getString("commandListIndex", "All Whippy commands"),
+                MessageBundler.send(this.plugin, this.random, "commandListIndex").toString(),
                 null,
                 this.getHelpTopics()
         );
