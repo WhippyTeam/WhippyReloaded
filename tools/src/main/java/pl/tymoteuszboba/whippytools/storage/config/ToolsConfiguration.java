@@ -1,4 +1,4 @@
-package pl.tymoteuszboba.whippytools.config;
+package pl.tymoteuszboba.whippytools.storage.config;
 
 import com.google.common.io.Files;
 import java.io.File;

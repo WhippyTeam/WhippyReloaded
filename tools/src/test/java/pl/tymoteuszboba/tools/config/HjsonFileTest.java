@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import pl.tymoteuszboba.whippytools.WhippyTools;
-import pl.tymoteuszboba.whippytools.config.ToolsConfiguration;
+import pl.tymoteuszboba.whippytools.storage.config.ToolsConfiguration;
 
 public class HjsonFileTest {
 
