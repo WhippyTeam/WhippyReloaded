@@ -20,7 +20,6 @@ public class WhippyPlayerTransactor {
         this.plugin = plugin;
         this.tableName = this.plugin.getWhippyConfig().getDatabaseSection().getTableName();
     }
-
     public void load(WhippyPlayer player) throws TransactionException {
         String query = new StringBuilder("SELECT * FROM `")
             .append(tableName)
@@ -45,8 +44,11 @@ public class WhippyPlayerTransactor {
                 });
                 player.setName(resultSet.getString("name"));
             }
+
         } catch (SQLException | TransactionException exception) {
             exception.printStackTrace();
+        } finally {
+            this.plugin.getDatabase().closeConnection(connection);
         }
     }
 

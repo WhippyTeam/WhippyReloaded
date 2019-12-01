@@ -17,7 +17,7 @@ public class WhippyPlayer implements IdentifableEntity<UUID> {
         this.identifier = identifier;
         this.name = Bukkit.getPlayer(this.identifier).getName();
 
-        this.registerBukkitPlayer();
+        this.updateBukkitPlayer();
     }
 
     public WhippyPlayer(final String name) {
@@ -25,7 +25,7 @@ public class WhippyPlayer implements IdentifableEntity<UUID> {
         this.identifier = UUID.nameUUIDFromBytes(("OfflinePlayer:" + this.name).getBytes(
             StandardCharsets.UTF_8));
 
-        this.registerBukkitPlayer();
+        this.updateBukkitPlayer();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class WhippyPlayer implements IdentifableEntity<UUID> {
             return this.originalPlayer.get();
         }
 
-        this.registerBukkitPlayer();
+        this.updateBukkitPlayer();
         return originalPlayer != null ? this.originalPlayer.get() : null;
     }
 
@@ -50,7 +50,7 @@ public class WhippyPlayer implements IdentifableEntity<UUID> {
         this.name = name;
     }
 
-    private void registerBukkitPlayer() {
+    public void updateBukkitPlayer() {
         if (Bukkit.getPlayer(this.identifier) != null) {
             this.originalPlayer = new WeakReference<>(Bukkit.getPlayer(this.identifier));
         }

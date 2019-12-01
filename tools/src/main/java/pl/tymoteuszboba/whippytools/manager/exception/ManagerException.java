@@ -1,6 +1,6 @@
 package pl.tymoteuszboba.whippytools.manager.exception;
 
-public class ManagerException extends Exception {
+public class ManagerException extends RuntimeException {
 
     public ManagerException() {
         super();

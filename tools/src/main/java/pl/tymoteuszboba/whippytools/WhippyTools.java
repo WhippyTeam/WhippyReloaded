@@ -1,9 +1,13 @@
 package pl.tymoteuszboba.whippytools;
 
 import com.zaxxer.hikari.HikariConfig;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.tymoteuszboba.whippytools.command.system.BukkitCommands;
 import pl.tymoteuszboba.whippytools.command.system.Commands;
+import pl.tymoteuszboba.whippytools.listener.PlayerJoinListener;
+import pl.tymoteuszboba.whippytools.listener.PlayerQuitListener;
 import pl.tymoteuszboba.whippytools.manager.WhippyPlayerManager;
 import pl.tymoteuszboba.whippytools.storage.config.ToolsConfiguration;
 import pl.tymoteuszboba.whippytools.storage.database.SqlHikariStorage;
@@ -20,10 +24,14 @@ public class WhippyTools extends JavaPlugin {
     @Override
     public void onEnable() {
         this.configuration = new ToolsConfiguration(this);
-        this.database = new SqlHikariStorage(this.loadDatabaseConfiguration());
 
         this.playerManager = new WhippyPlayerManager();
+        this.database = new SqlHikariStorage(this.loadDatabaseConfiguration());
         this.playerTransactor = new WhippyPlayerTransactor(this);
+        this.playerTransactor.checkTable();
+
+        this.registerListeners(new PlayerJoinListener(this),
+            new PlayerQuitListener(this));
     }
 
     public ToolsConfiguration getWhippyConfig() {
@@ -55,6 +63,12 @@ public class WhippyTools extends JavaPlugin {
     private void registerCommands(Object... objects) {
         Commands command = new BukkitCommands(this);
         command.registerCommandObjects(objects);
+    }
+
+    private void registerListeners(Listener... listeners) {
+        for (Listener listener : listeners) {
+            Bukkit.getPluginManager().registerEvents(listener, this);
+        }
     }
 
 }

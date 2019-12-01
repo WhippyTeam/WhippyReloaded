@@ -18,11 +18,11 @@ public class WhippyPlayerManager implements EntityManager<WhippyPlayer, UUID> {
 
     @Override
     public Optional<WhippyPlayer> get(String name) {
-        return Optional.of(this.namePlayerMap.get(name));
+        return Optional.ofNullable(this.namePlayerMap.get(name));
     }
 
     public Optional<WhippyPlayer> get(UUID identifier) {
-        return Optional.of(this.uuidPlayerMap.get(identifier));
+        return Optional.ofNullable(this.uuidPlayerMap.get(identifier));
     }
 
     @Override
