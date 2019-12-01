@@ -35,12 +35,15 @@
 
   <dependencyManagement>
     <dependencies>
+
+      <!-- Main library that enables to write in Bukkit. -->
       <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
         <version>1.14.4-R0.1-SNAPSHOT</version>
       </dependency>
 
+      <!-- Libraries used to help with storage handling. -->
       <dependency>
         <groupId>org.hjson</groupId>
         <artifactId>hjson</artifactId>
@@ -48,24 +51,18 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.9</version>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>3.4.1</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>28.1-jre</version>
-      </dependency>
-
+      <!-- Libraries used to write unit tests. -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
         <version>5.5.2</version>
         <scope>test</scope>
       </dependency>
-
 
       <dependency>
         <groupId>org.mockito</groupId>
@@ -79,6 +76,19 @@
         <artifactId>MockBukkit-v1.14</artifactId>
         <version>0.2.1</version>
         <scope>test</scope>
+      </dependency>
+
+      <!-- Additional utility libraries. -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>28.1-jre</version>
       </dependency>
 
     </dependencies>
