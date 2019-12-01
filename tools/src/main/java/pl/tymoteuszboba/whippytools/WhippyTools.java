@@ -27,8 +27,7 @@ public class WhippyTools extends JavaPlugin {
     }
 
     //Only for testing purposes.
-    protected WhippyTools(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
-    {
+    protected WhippyTools(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
         super(loader, description, dataFolder, file);
     }
 
