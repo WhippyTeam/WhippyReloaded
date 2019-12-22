@@ -52,14 +52,13 @@ public class WhippyPlayerTransactor {
         }
     }
 
-    public void save(WhippyPlayer player) throws TransactionException {
+    public void save(WhippyPlayer player) {
         String query = new StringBuilder("INSERT INTO `")
             .append(tableName)
-            .append("` (")
-            .append("uuid, name) VALUES")
+            .append("` (uuid, name) VALUES")
             .append(" (?, ?) ") //2 Question Marks
             .append("ON DUPLICATE KEY UPDATE ")
-            .append("`name` = ?")
+            .append("`name` = ?;")
             .toString();
 
         TransactionConsumer consumer = preparedStatement -> {

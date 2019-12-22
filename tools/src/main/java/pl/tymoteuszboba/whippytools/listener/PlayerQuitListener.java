@@ -7,7 +7,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import pl.tymoteuszboba.whippytools.WhippyTools;
 import pl.tymoteuszboba.whippytools.entity.WhippyPlayer;
 import pl.tymoteuszboba.whippytools.manager.exception.ManagerException;
-import pl.tymoteuszboba.whippytools.storage.exception.TransactionException;
 
 public class PlayerQuitListener implements Listener {
 
@@ -24,13 +23,7 @@ public class PlayerQuitListener implements Listener {
             .orElseThrow(() -> new ManagerException("Player not found!"));
 
         this.plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () ->
-        {
-            try {
-                this.plugin.getPlayerTransactor().save(customPlayer);
-            } catch (TransactionException exception) {
-                exception.printStackTrace();
-            }
-        });
+            this.plugin.getPlayerTransactor().save(customPlayer));
     }
 
 }
