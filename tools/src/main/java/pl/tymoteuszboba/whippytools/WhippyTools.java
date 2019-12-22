@@ -9,6 +9,7 @@ import pl.tymoteuszboba.whippytools.command.system.Commands;
 import pl.tymoteuszboba.whippytools.listener.PlayerJoinListener;
 import pl.tymoteuszboba.whippytools.listener.PlayerQuitListener;
 import pl.tymoteuszboba.whippytools.manager.WhippyPlayerManager;
+import pl.tymoteuszboba.whippytools.scheduler.DataSaveScheduler;
 import pl.tymoteuszboba.whippytools.storage.config.ToolsConfiguration;
 import pl.tymoteuszboba.whippytools.storage.database.SqlHikariStorage;
 import pl.tymoteuszboba.whippytools.storage.database.transaction.WhippyPlayerTransactor;
@@ -32,6 +33,8 @@ public class WhippyTools extends JavaPlugin {
 
         this.registerListeners(new PlayerJoinListener(this),
             new PlayerQuitListener(this));
+
+        this.registerSchedulers();
     }
 
     public ToolsConfiguration getWhippyConfig() {
@@ -68,6 +71,14 @@ public class WhippyTools extends JavaPlugin {
     private void registerListeners(Listener... listeners) {
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, this);
+        }
+    }
+
+    private void registerSchedulers() {
+        if (this.configuration.getRawObject().getBoolean("enableDataSavingCycle", true)) {
+            int dataSavingTime = this.configuration.getRawObject().getInt("dataSavingTime", 10);
+            Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveScheduler(this),
+                0, dataSavingTime * 20 * 60);
         }
     }
 

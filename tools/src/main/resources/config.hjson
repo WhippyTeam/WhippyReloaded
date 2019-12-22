@@ -15,4 +15,7 @@
     password: ""
     tableName: "WhippyTools"
   },
+
+  enableDataSavingCycle: true
+  dataSavingTime: 10
 }
