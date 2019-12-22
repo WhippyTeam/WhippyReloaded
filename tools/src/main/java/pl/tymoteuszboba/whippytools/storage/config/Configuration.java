@@ -1,4 +1,4 @@
-package pl.tymoteuszboba.whippytools.config;
+package pl.tymoteuszboba.whippytools.storage.config;
 
 public interface Configuration {
 

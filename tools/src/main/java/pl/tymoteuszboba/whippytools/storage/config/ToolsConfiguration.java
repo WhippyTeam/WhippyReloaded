@@ -1,4 +1,4 @@
-package pl.tymoteuszboba.whippytools.config;
+package pl.tymoteuszboba.whippytools.storage.config;
 
 import com.google.common.io.Files;
 import java.io.File;
@@ -13,9 +13,13 @@ public class ToolsConfiguration implements Configuration {
     private final WhippyTools plugin;
     private JsonObject schema;
 
+    private DatabaseSection database;
+
     public ToolsConfiguration(final WhippyTools plugin) {
         this.plugin = plugin;
         this.loadConfiguration();
+
+        this.database = new DatabaseSection(this.schema);
     }
 
     @Override
@@ -48,6 +52,10 @@ public class ToolsConfiguration implements Configuration {
         return this.schema.getString("locale", "en");
     }
 
+    public DatabaseSection getDatabaseSection() {
+        return this.database;
+    }
+
     public JsonObject getLocaleFile() {
         File file = new File(this.plugin.getDataFolder(), "locale-" + this.getLocale() + ".hjson");
         if (!file.exists()) {
@@ -76,5 +84,30 @@ public class ToolsConfiguration implements Configuration {
 
     public JsonObject getRawObject() {
         return this.schema;
+    }
+
+    public static class DatabaseSection {
+
+        final JsonObject schema;
+
+        public DatabaseSection(final JsonObject schema) {
+            this.schema = schema.get("database").asObject();
+        }
+
+        public String getJdbcUrl() {
+            return this.schema.getString("jdbcUrl", "jdbc:mysql://localhost:3306/minecraft");
+        }
+
+        public String getUsername() {
+            return this.schema.getString("username", "root");
+        }
+
+        public String getPassword() {
+            return this.schema.getString("password", "");
+        }
+
+        public String getTableName() {
+            return this.schema.getString("tableName", "WhippyTools");
+        }
     }
 }
