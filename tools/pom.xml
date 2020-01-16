@@ -19,11 +19,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.hjson</groupId>
-      <artifactId>hjson</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
     </dependency>
