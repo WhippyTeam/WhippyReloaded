@@ -102,8 +102,8 @@ public class WhippyTools extends JavaPlugin {
     }
 
     private void registerSchedulers() {
-        if (this.getConfig().getBoolean("enableDataSavingCycle", true)) {
-            int dataSavingTime = this.getConfig().getInt("dataSavingTime", 10);
+        if (this.getConfig().getBoolean("data-saving-cycle", true)) {
+            int dataSavingTime = this.getConfig().getInt("data-saving-time", 10);
             Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveScheduler(this),
                 0, dataSavingTime * 20 * 60);
         }
