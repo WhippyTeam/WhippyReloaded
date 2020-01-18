@@ -3,14 +3,12 @@ package pl.tymoteuszboba.whippytools.system.i18n;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.hjson.JsonObject;
+import org.bukkit.configuration.file.FileConfiguration;
 import pl.tymoteuszboba.whippytools.WhippyTools;
 import pl.tymoteuszboba.whippytools.system.i18n.enums.ContextKey;
 import pl.tymoteuszboba.whippytools.system.i18n.enums.MessageTarget;
 
 public class ExtendedMessageContext {
-
-    private final WhippyTools plugin;
 
     private String firstValue;
     private String secondValue;
@@ -19,24 +17,12 @@ public class ExtendedMessageContext {
 
     public ExtendedMessageContext(final WhippyTools plugin, String firstKey, String secondKey) {
         Validate.notNull(plugin, "Plugin cannot be null!");
-        this.plugin = plugin;
 
-        JsonObject languageFile = plugin.getWhippyConfig().getLocaleFile();
+        FileConfiguration languageFile = plugin.getMessageFile();
         this.firstValue = languageFile.getString(firstKey,
             "First string not found in language configuration.");
 
         this.secondValue = languageFile.getString(secondKey,
-            "Second string not found in language configuration.");
-    }
-
-    public ExtendedMessageContext(final WhippyTools plugin, JsonObject from, String firstKey, String secondKey) {
-        Validate.notNull(plugin, "Plugin cannot be null!");
-        this.plugin = plugin;
-
-        this.firstValue = from.getString(firstKey,
-            "First string not found in language configuration.");
-
-        this.secondValue = from.getString(secondKey,
             "Second string not found in language configuration.");
     }
 

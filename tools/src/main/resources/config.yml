@@ -1,0 +1,37 @@
+###########################################
+##### WHIPPY TOOLS ##### 1.0.0-URANUS #####
+###########################################
+
+# This file contains a configuration for WhippyTools plugin.
+
+# Set the locale for all messages.
+# Default option: en
+locale: en
+
+# Should plugin send additional messages about performed actions on the server?
+# Use this mode only when you detect any bugs from our plugin!
+# Default option: false
+debug-mode: false
+
+# Should plugin send messages about an available update?
+# Default option: true
+update-info: true
+
+database:
+  # JDBC is a URL that provides basic information about the connection to the database.
+  # To write your own URL, simple write it with a given example:
+  # jdbcUrl: "jdbc:mysql//host:port/database"
+  jdbcUrl:  "jdbc:mysql://localhost:3306/minecraft"
+  username: "root"
+  password: ""
+  tableName: "WhippyTools"
+
+# Should plugin save all users every given time?
+# Default option: true
+data-saving-cycle: true
+
+# How fast should plugin save players?
+# Doesn't work when "data-saving-cycle" is set to false.
+# Unit: Minutes
+# Default option: 10
+data-saving-time: 10

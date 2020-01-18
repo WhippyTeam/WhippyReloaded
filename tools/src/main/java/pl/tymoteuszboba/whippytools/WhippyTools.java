@@ -1,7 +1,12 @@
 package pl.tymoteuszboba.whippytools;
 
+import com.google.common.io.Files;
 import com.zaxxer.hikari.HikariConfig;
+import java.io.File;
+import java.io.IOException;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.tymoteuszboba.whippytools.command.system.BukkitCommands;
@@ -10,13 +15,12 @@ import pl.tymoteuszboba.whippytools.listener.PlayerJoinListener;
 import pl.tymoteuszboba.whippytools.listener.PlayerQuitListener;
 import pl.tymoteuszboba.whippytools.manager.WhippyPlayerManager;
 import pl.tymoteuszboba.whippytools.scheduler.DataSaveScheduler;
-import pl.tymoteuszboba.whippytools.storage.config.ToolsConfiguration;
 import pl.tymoteuszboba.whippytools.storage.database.SqlHikariStorage;
 import pl.tymoteuszboba.whippytools.storage.database.transaction.WhippyPlayerTransactor;
 
 public class WhippyTools extends JavaPlugin {
 
-    private ToolsConfiguration configuration;
+    private FileConfiguration messageFile;
     private SqlHikariStorage database;
 
     private WhippyPlayerManager playerManager;
@@ -24,7 +28,10 @@ public class WhippyTools extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.configuration = new ToolsConfiguration(this);
+        this.getConfig().options().copyDefaults(true);
+        this.saveDefaultConfig();
+
+        messageFile = this.registerLocaleFile();
 
         this.playerManager = new WhippyPlayerManager();
         this.database = new SqlHikariStorage(this.loadDatabaseConfiguration());
@@ -37,14 +44,13 @@ public class WhippyTools extends JavaPlugin {
         this.registerSchedulers();
     }
 
-    public ToolsConfiguration getWhippyConfig() {
-        return this.configuration;
-    }
-
     public SqlHikariStorage getDatabase() {
         return this.database;
     }
 
+    public FileConfiguration getMessageFile() {
+        return this.messageFile;
+    }
 
     public WhippyPlayerManager getPlayerManager() {
         return this.playerManager;
@@ -54,11 +60,32 @@ public class WhippyTools extends JavaPlugin {
         return this.playerTransactor;
     }
 
+    private FileConfiguration registerLocaleFile() {
+        String locale = this.getConfig().getString("locale", "en");
+        File file = new File(this.getDataFolder(), "locale-" + locale + ".yml");
+
+        if (!file.exists()) {
+            try {
+                Files.createParentDirs(file);
+                file.createNewFile();
+            } catch (IOException exception) {
+                this.getLogger().severe("Error while trying to create locale files!");
+                exception.printStackTrace();
+            }
+
+            this.saveResource("locale-" + locale + ".yml", true);
+        }
+
+        FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        fileConfiguration.options().copyDefaults(true);
+        return fileConfiguration;
+    }
+
     private HikariConfig loadDatabaseConfiguration() {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(this.getWhippyConfig().getDatabaseSection().getJdbcUrl());
-        hikariConfig.setUsername(this.getWhippyConfig().getDatabaseSection().getUsername());
-        hikariConfig.setPassword(this.getWhippyConfig().getDatabaseSection().getPassword());
+        hikariConfig.setJdbcUrl(this.getConfig().getString("database.jdbcUrl"));
+        hikariConfig.setUsername(this.getConfig().getString("database.username"));
+        hikariConfig.setPassword(this.getConfig().getString("database.password"));
         hikariConfig.setPoolName("WhippyTools-pool");
         return hikariConfig;
     }
@@ -75,8 +102,8 @@ public class WhippyTools extends JavaPlugin {
     }
 
     private void registerSchedulers() {
-        if (this.configuration.getRawObject().getBoolean("enableDataSavingCycle", true)) {
-            int dataSavingTime = this.configuration.getRawObject().getInt("dataSavingTime", 10);
+        if (this.getConfig().getBoolean("data-saving-cycle", true)) {
+            int dataSavingTime = this.getConfig().getInt("data-saving-time", 10);
             Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveScheduler(this),
                 0, dataSavingTime * 20 * 60);
         }

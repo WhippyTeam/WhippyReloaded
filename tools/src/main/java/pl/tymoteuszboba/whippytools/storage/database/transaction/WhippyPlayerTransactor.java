@@ -18,7 +18,7 @@ public class WhippyPlayerTransactor {
 
     public WhippyPlayerTransactor(final WhippyTools plugin) {
         this.plugin = plugin;
-        this.tableName = this.plugin.getWhippyConfig().getDatabaseSection().getTableName();
+        this.tableName = this.plugin.getConfig().getString("database.tableName", "WhippyTools");
     }
     public void load(WhippyPlayer player) throws TransactionException {
         String query = new StringBuilder("SELECT * FROM `")

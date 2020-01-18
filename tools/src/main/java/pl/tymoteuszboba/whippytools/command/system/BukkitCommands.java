@@ -1,5 +1,10 @@
 package pl.tymoteuszboba.whippytools.command.system;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -10,13 +15,6 @@ import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import org.hjson.JsonObject;
 import pl.tymoteuszboba.whippytools.WhippyTools;
 import pl.tymoteuszboba.whippytools.command.system.exception.CommandConsoleException;
 import pl.tymoteuszboba.whippytools.command.system.exception.CommandException;
@@ -35,9 +33,9 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     private CommandMap bukkitCommandMap;
     private Set<HelpTopic> helpTopics = new TreeSet<>(HelpTopicComparator.helpTopicComparatorInstance());
 
-    private JsonObject errors;
-    private JsonObject random;
     private final ExceptionHandler exceptionHandler;
+
+    private final String tooFewArguments;
 
     public BukkitCommands(final WhippyTools plugin) {
         this.plugin = plugin;
@@ -48,12 +46,8 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
             ex.printStackTrace();
         }
 
-        JsonObject language = this.plugin.getWhippyConfig().getLocaleFile();
-        JsonObject operators = language.get("operators").asObject();
-        this.random = language.get("random").asObject();
-        this.errors = language.get("errors").asObject().get("command").asObject();
-
-        this.exceptionHandler = new ExceptionHandler(this.plugin, operators, this.errors);
+        this.tooFewArguments = plugin.getMessageFile().getString("errors.command.too-few-arguments", "Too few arguments!");
+        this.exceptionHandler = new ExceptionHandler(this.plugin);
 
         this.plugin.getServer().getHelpMap().addTopic(this.createHelpIndex());
     }
@@ -66,7 +60,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
             } else if (context.getCommand().hasPermission() && !sender.hasPermission(context.getCommand().getPermission())) {
                 throw new CommandPermissionException(context.getCommand().getPermission());
             } else if (context.getCommand().getMin() > context.getParamsLength()) {
-                throw new CommandUsageException(this.errors.getString("too-few-arguments", "Too few arguments!"));
+                throw new CommandUsageException(this.tooFewArguments);
             } else {
                 context.getCommand().handleCommand(sender, context);
             }
@@ -138,7 +132,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     private IndexHelpTopic createHelpIndex() {
         return new IndexHelpTopic(
                 this.getPluginName(),
-                MessageBundler.send(this.plugin, this.random, "commandListIndex").toString(),
+                MessageBundler.send(this.plugin, "random.commandListIndex").toString(),
                 null,
                 this.getHelpTopics()
         );
@@ -184,23 +178,23 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
     private static class ExceptionHandler {
 
         private WhippyTools plugin;
-        private JsonObject operators, errors;
 
-        public ExceptionHandler(final WhippyTools plugin,
-            JsonObject operators,
-            JsonObject errors) {
+        private final String gameOperator;
+        private final String consoleOperator;
+
+        public ExceptionHandler(final WhippyTools plugin) {
             this.plugin = plugin;
-            this.operators = operators;
-            this.errors = errors;
+            this.gameOperator = plugin.getMessageFile().getString("game", "game");
+            this.consoleOperator = plugin.getMessageFile().getString("console", "console");
         }
 
         public void handleException(CommandConsoleException exception, CommandSender sender) {
-            String level = this.operators.getString("game", "game");
+            String level = this.gameOperator;
             if (exception.isConsoleLevel()) {
-                level = this.operators.getString("console", "console");
+                level = this.consoleOperator;
             }
 
-            MessageBundler.send(this.plugin, this.errors, "only-from-device")
+            MessageBundler.send(this.plugin, "errors.command.only-from-device")
                 .replace("DEVICE", level)
                 .target(MessageTarget.CHAT)
                 .to(sender);
@@ -212,7 +206,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
                 permission = "'" + exception.getPermission() + "'";
             }
 
-            MessageBundler.send(this.plugin, this.errors, "no-permission")
+            MessageBundler.send(this.plugin, "errors.command.no-permission")
                 .replace("PERMISSION", permission)
                 .target(MessageTarget.CHAT)
                 .to(sender);
@@ -231,7 +225,7 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
             if (exception.getMessage() != null) {
                 sender.sendMessage(exception.getMessage());
             } else {
-                MessageBundler.send(this.plugin, this.errors, "unknown-error")
+                MessageBundler.send(this.plugin, "errors.command.unknown-error")
                     .target(MessageTarget.CHAT)
                     .to(sender);
                 exception.printStackTrace();
@@ -239,13 +233,13 @@ public class BukkitCommands extends Commands implements CommandExecutor, TabComp
         }
 
         public void handleNumberFormatException(CommandSender sender) {
-            MessageBundler.send(this.plugin, this.errors, "number-instead-of-string")
+            MessageBundler.send(this.plugin, "errors.command.number-instead-of-string")
                 .target(MessageTarget.CHAT)
                 .to(sender);
         }
 
         public void handleUnknownException(Throwable exception, CommandSender sender) {
-            MessageBundler.send(this.plugin, this.errors, "unknown-error")
+            MessageBundler.send(this.plugin, "errors.command.unknown-error")
                 .target(MessageTarget.CHAT)
                 .to(sender);
 
