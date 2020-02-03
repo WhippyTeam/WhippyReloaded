@@ -9,8 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.tymoteuszboba.whippytools.command.system.BukkitCommands;
-import pl.tymoteuszboba.whippytools.command.system.Commands;
 import pl.tymoteuszboba.whippytools.listener.PlayerJoinListener;
 import pl.tymoteuszboba.whippytools.listener.PlayerQuitListener;
 import pl.tymoteuszboba.whippytools.manager.WhippyPlayerManager;
@@ -88,11 +86,6 @@ public class WhippyTools extends JavaPlugin {
         hikariConfig.setPassword(this.getConfig().getString("database.password"));
         hikariConfig.setPoolName("WhippyTools-pool");
         return hikariConfig;
-    }
-
-    private void registerCommands(Object... objects) {
-        Commands command = new BukkitCommands(this);
-        command.registerCommandObjects(objects);
     }
 
     private void registerListeners(Listener... listeners) {
