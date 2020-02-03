@@ -10,6 +10,7 @@
 
   <modules>
     <module>tools</module>
+    <module>shared</module>
   </modules>
 
   <name>WhippyReloaded</name>
