@@ -2,92 +2,38 @@ package com.whippyteam.shared.command;
 
 import java.lang.reflect.Method;
 
-public class Command {
+public interface Command {
 
-    private final Method method;
-    private final Object commandClassObject;
+    String[] getNames();
 
-    private String[] names;
-    private String description;
-    private boolean userOnly;
-    private String[] permissions;
+    String getPrimaryName();
 
-    private int minArgs;
-    private int maxArgs;
+    String getDescription();
 
-    public Command(String[] names, String description, int minArgs, int maxArgs, boolean userOnly,
-        String[] permissions, Method method, Object commandClassObject) {
+    boolean isUserOnly();
 
-        this.names = names;
-        this.description = description;
+    String[] getPermissions();
 
-        this.minArgs = minArgs;
-        this.maxArgs = maxArgs;
+    int getMinArgs();
 
-        this.userOnly = userOnly;
-        this.permissions = permissions;
+    int getMaxArgs();
 
-        this.method = method;
-        this.commandClassObject = commandClassObject;
-    }
+    Method getCommandMethod();
 
-    public String[] getNames() {
-        return names;
-    }
+    Object getCommandObject();
 
-    public String getDescription() {
-        return description;
-    }
+    void setNames(String[] name);
 
-    public boolean isUserOnly() {
-        return userOnly;
-    }
+    void setPrimaryName(String name);
 
-    public String[] getPermissions() {
-        return permissions;
-    }
+    void setDescription(String description);
 
-    public int getMinArgs() {
-        return minArgs;
-    }
+    void setUserOnly(boolean userOnly);
 
-    public int getMaxArgs() {
-        return maxArgs;
-    }
+    void setPermissions(String[] permissions);
 
-    public Method getMethod() {
-        return method;
-    }
+    void setMinArgs(int minArgs);
 
-    public Object getCommandClassObject() {
-        return commandClassObject;
-    }
+    void setMaxArgs(int maxArgs);
 
-    public void setNames(String[] names) {
-        this.names = names;
-    }
-
-    public void setPrimaryName(String name) {
-        this.names[0] = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setUserOnly(boolean userOnly) {
-        this.userOnly = userOnly;
-    }
-
-    public void setPermissions(String[] permissions) {
-        this.permissions = permissions;
-    }
-
-    public void setMinArgs(int minArgs) {
-        this.minArgs = minArgs;
-    }
-
-    public void setMaxArgs(int maxArgs) {
-        this.maxArgs = maxArgs;
-    }
 }
