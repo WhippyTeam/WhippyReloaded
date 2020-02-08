@@ -1,7 +1,10 @@
 package main.java.com.whippyteam.shared.bukkit.command;
 
 import com.whippyteam.shared.command.Command;
+import com.whippyteam.shared.command.CommandContent;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import org.bukkit.command.CommandSender;
 
 public class BukkitCommand implements Command {
 
@@ -16,8 +19,10 @@ public class BukkitCommand implements Command {
     private int minArgs;
     private int maxArgs;
 
+    private String usage;
+
     public BukkitCommand(String[] names, String description, int minArgs, int maxArgs, boolean userOnly,
-        String[] permissions, Method method, Object commandClassObject) {
+        String[] permissions, String usage, Method method, Object commandClassObject) {
 
         this.names = names;
         this.description = description;
@@ -28,8 +33,24 @@ public class BukkitCommand implements Command {
         this.userOnly = userOnly;
         this.permissions = permissions;
 
+        this.usage = usage;
+
         this.method = method;
         this.commandClassObject = commandClassObject;
+    }
+
+    @Override
+    public void executeCommand(CommandSender sender, CommandContent context) throws Throwable {
+        if (this.getCommandMethod() == null) {
+            return;
+        }
+
+        try {
+            this.getCommandMethod().setAccessible(true);
+            this.getCommandMethod().invoke(this.getCommandObject(), sender, context);
+        } catch (InvocationTargetException ex) {
+            throw ex.getTargetException();
+        }
     }
 
     public String[] getNames() {
@@ -58,6 +79,10 @@ public class BukkitCommand implements Command {
 
     public int getMaxArgs() {
         return maxArgs;
+    }
+
+    public String getUsage() {
+        return this.usage;
     }
 
     public Method getCommandMethod() {
@@ -94,5 +119,9 @@ public class BukkitCommand implements Command {
 
     public void setMaxArgs(int maxArgs) {
         this.maxArgs = maxArgs;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
     }
 }

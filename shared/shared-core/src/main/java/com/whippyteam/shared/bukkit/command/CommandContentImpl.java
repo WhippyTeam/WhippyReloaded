@@ -4,14 +4,14 @@ import com.whippyteam.shared.command.Command;
 import com.whippyteam.shared.command.CommandContent;
 import java.util.List;
 
-public abstract class AbstractCommandContent implements CommandContent {
+public class CommandContentImpl implements com.whippyteam.shared.command.CommandContent {
 
     private final List<String> params;
     private final String label;
 
     private final Command command;
 
-    public AbstractCommandContent(List<String> params, String label, Command command) {
+    public CommandContentImpl(List<String> params, String label, Command command) {
         this.params = params;
         this.label = label;
         this.command = command;
