@@ -171,7 +171,7 @@ public class BukkitCommandLoader {
 
         @Override
         public boolean execute(CommandSender sender, String label, String[] args) {
-            return new BukkitCommandHandler().onCommand(sender, this, label, args);
+            return new BukkitCommandHandler(BukkitCommandLoader.this).onCommand(sender, this, label, args);
         }
     }
 }
