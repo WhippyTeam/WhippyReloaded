@@ -12,7 +12,7 @@
 
   <name>WhippyReloaded || Shared || Core</name>
 
-  <artifactId>shared-core</artifactId>
+  <artifactId>shared-bukkit</artifactId>
 
   <dependencies>
     <dependency>

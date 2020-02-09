@@ -1,9 +1,7 @@
-package main.java.com.whippyteam.shared.bukkit.command;
+package com.whippyteam.shared.bukkit.command;
 
 import com.whippyteam.shared.command.Command;
-import com.whippyteam.shared.command.CommandContent;
 import com.whippyteam.shared.command.annotation.CommandInfo;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -14,7 +12,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
@@ -66,6 +63,7 @@ public class BukkitCommandLoader {
         this.commandMap.register(this.getPluginName(), preparedCommand);
         for (String name : command.getNames()) {
             this.customCommandMap.put(name, command);
+            this.customCommandMap.put(this.getPluginName().toLowerCase() + ":" + name, command);
         }
     }
 
@@ -73,9 +71,9 @@ public class BukkitCommandLoader {
         for (Method method : clazz.getDeclaredMethods()) {
             method.setAccessible(true);
 
-            Annotation annotation = method.getDeclaredAnnotation(CommandInfo.class);
+            CommandInfo annotation = method.getDeclaredAnnotation(CommandInfo.class);
             if (annotation != null) {
-                this.registerCommand(method, null, (CommandInfo) annotation);
+                this.registerCommand(method, null, annotation);
             }
         }
     }
@@ -90,9 +88,9 @@ public class BukkitCommandLoader {
         for (Method method : object.getClass().getDeclaredMethods()) {
             method.setAccessible(true);
 
-            Annotation annotation = method.getDeclaredAnnotation(CommandInfo.class);
+            CommandInfo annotation = method.getDeclaredAnnotation(CommandInfo.class);
             if (annotation != null) {
-                this.registerCommand(method, object, (CommandInfo) annotation);
+                this.registerCommand(method, object, annotation);
             }
         }
     }

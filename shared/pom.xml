@@ -17,7 +17,7 @@
 
   <modules>
     <module>shared-api</module>
-    <module>shared-core</module>
+    <module>shared-bukkit</module>
   </modules>
 
   <dependencyManagement>

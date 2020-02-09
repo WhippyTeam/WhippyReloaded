@@ -1,4 +1,4 @@
-package main.java.com.whippyteam.shared.bukkit.command;
+package com.whippyteam.shared.bukkit.command;
 
 import com.whippyteam.shared.command.Command;
 import com.whippyteam.shared.command.CommandContent;

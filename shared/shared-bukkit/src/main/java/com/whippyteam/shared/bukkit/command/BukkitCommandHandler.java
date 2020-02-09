@@ -1,12 +1,11 @@
-package main.java.com.whippyteam.shared.bukkit.command;
+package com.whippyteam.shared.bukkit.command;
 
+import com.whippyteam.shared.bukkit.exception.CommandArgumentException;
+import com.whippyteam.shared.bukkit.exception.CommandPermissionException;
+import com.whippyteam.shared.bukkit.exception.CommandUnpermittedSenderException;
 import com.whippyteam.shared.command.CommandContent;
 import java.util.Arrays;
 import java.util.List;
-import main.java.com.whippyteam.shared.bukkit.exception.CommandArgumentException;
-import main.java.com.whippyteam.shared.bukkit.exception.CommandException;
-import main.java.com.whippyteam.shared.bukkit.exception.CommandPermissionException;
-import main.java.com.whippyteam.shared.bukkit.exception.CommandUnpermittedSenderException;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,44 +26,54 @@ public class BukkitCommandHandler implements CommandExecutor {
         CommandContent content = new CommandContentImpl(params, label,
             this.loader.getCommand(label));
 
-        boolean executed = this.execute(sender, content);
-        return executed;
+        return this.execute(sender, content);
     }
 
     private boolean execute(CommandSender sender, CommandContent content) {
         try {
             if (content.getCommand().isUserOnly() && !(sender instanceof Player)) {
                 throw new CommandUnpermittedSenderException("Sender must be a player!");
-            } else if ((content.getCommand().getPermissions() != null)) {
+            }
+
+            if (content.getCommand().getPermissions() != null) {
                 for (String permission : content.getCommand().getPermissions()) {
+                    if (permission.equalsIgnoreCase("")) {
+                        continue;
+                    }
+
                     if (!sender.hasPermission(permission)) {
                         throw new CommandPermissionException(
                             "Sender must have a permission to execute the command!");
                     }
                 }
-            } else if (content.getCommand().getMinArgs() > content.getParamsLength()) {
+            }
+
+            if (content.getCommand().getMinArgs() > content.getParamsLength()
+                || content.getCommand().getMaxArgs() < content.getParamsLength()) {
                 throw new CommandArgumentException(
                     "Sender didn't provided proper amount of arguments!");
-            } else {
-                try {
-                    content.getCommand().executeCommand(sender, content);
-                    return true;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
             }
+
+            try {
+                content.getCommand().executeCommand(sender, content);
+                return true;
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
         } catch (CommandUnpermittedSenderException exception) {
             String message = ChatColor.RED + "This command can be executed only by a Player!";
             sender.sendMessage(message);
         } catch (CommandPermissionException exception) {
-            String message = ChatColor.RED + "This command can be executed only by a Player!";
+            String message =
+                ChatColor.RED + "You don't have enough permission to use this command!";
             sender.sendMessage(message);
         } catch (CommandArgumentException exception) {
             String message = ChatColor.translateAlternateColorCodes('&', "&7Usage: &e" +
                 content.getCommand().getUsage());
             sender.sendMessage(message);
         } catch (NumberFormatException ex) {
-            sender.sendMessage(ChatColor.RED + "You need to write a number in an argument!");
+            sender.sendMessage(ChatColor.RED + "You need to write a number in the argument!");
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Usage: &e" +
                 content.getCommand().getUsage()));
         } catch (Throwable ex) {

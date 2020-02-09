@@ -1,6 +1,6 @@
-package main.java.com.whippyteam.shared.bukkit.exception;
+package com.whippyteam.shared.bukkit.exception;
 
-public class CommandArgumentException extends CommandException {
+public class CommandArgumentException extends CommandExecutionException {
 
     public CommandArgumentException() {
         super();

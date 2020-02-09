@@ -44,6 +44,11 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>pl.tymoteuszboba</groupId>
+      <artifactId>shared-bukkit</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

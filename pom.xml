@@ -86,6 +86,13 @@
         <scope>compile</scope>
       </dependency>
 
+      <dependency>
+        <groupId>pl.tymoteuszboba</groupId>
+        <artifactId>shared-bukkit</artifactId>
+        <version>1.0</version>
+        <scope>compile</scope>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 

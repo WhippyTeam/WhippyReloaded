@@ -1,4 +1,4 @@
-package main.java.com.whippyteam.shared.bukkit.exception;
+package com.whippyteam.shared.bukkit.exception;
 
 public class CommandUnpermittedSenderException extends CommandExecutionException {
 
