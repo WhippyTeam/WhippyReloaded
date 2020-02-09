@@ -10,6 +10,7 @@
 
   <modules>
     <module>tools</module>
+    <module>shared</module>
   </modules>
 
   <name>WhippyReloaded</name>
@@ -82,6 +83,13 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>1.7.30</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>pl.tymoteuszboba</groupId>
+        <artifactId>shared-bukkit</artifactId>
+        <version>1.0</version>
         <scope>compile</scope>
       </dependency>
 
