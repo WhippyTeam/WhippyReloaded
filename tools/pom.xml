@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.tymoteuszboba</groupId>
+    <groupId>com.whippyteam</groupId>
     <artifactId>whippyreloaded</artifactId>
     <version>1.0</version>
   </parent>
