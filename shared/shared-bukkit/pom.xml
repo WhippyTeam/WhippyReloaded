@@ -10,7 +10,7 @@
     <version>1.0</version>
   </parent>
 
-  <name>WhippyReloaded || Shared || Core</name>
+  <name>WhippyReloaded || Shared || Bukkit</name>
 
   <artifactId>shared-bukkit</artifactId>
 
