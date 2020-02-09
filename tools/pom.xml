@@ -46,7 +46,7 @@
     </dependency>
 
     <dependency>
-      <groupId>pl.tymoteuszboba</groupId>
+      <groupId>com.whippyteam</groupId>
       <artifactId>shared-bukkit</artifactId>
     </dependency>
   </dependencies>

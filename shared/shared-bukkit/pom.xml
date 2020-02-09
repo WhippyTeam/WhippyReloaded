@@ -16,7 +16,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>pl.tymoteuszboba</groupId>
+      <groupId>com.whippyteam</groupId>
       <artifactId>shared-api</artifactId>
       <version>1.0</version>
     </dependency>

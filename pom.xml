@@ -81,7 +81,7 @@
       </dependency>
 
       <dependency>
-        <groupId>pl.tymoteuszboba</groupId>
+        <groupId>com.whippyteam</groupId>
         <artifactId>shared-bukkit</artifactId>
         <version>1.0</version>
         <scope>compile</scope>
