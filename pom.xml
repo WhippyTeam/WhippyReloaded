@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>pl.tymoteuszboba</groupId>
+  <groupId>com.whippyteam</groupId>
   <artifactId>whippyreloaded</artifactId>
   <packaging>pom</packaging>
 
@@ -25,12 +25,6 @@
       <name>Spigot repository</name>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    </repository>
-
-    <repository>
-      <name>Diorite repository</name>
-      <id>diorite-repo</id>
-      <url>https://repo.diorite.org/repository/diorite/</url>
     </repository>
   </repositories>
 
@@ -87,12 +81,11 @@
       </dependency>
 
       <dependency>
-        <groupId>pl.tymoteuszboba</groupId>
+        <groupId>com.whippyteam</groupId>
         <artifactId>shared-bukkit</artifactId>
         <version>1.0</version>
         <scope>compile</scope>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
 

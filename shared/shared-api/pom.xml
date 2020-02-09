@@ -11,8 +11,8 @@
   </dependencies>
 
   <parent>
+    <groupId>com.whippyteam</groupId>
     <artifactId>shared</artifactId>
-    <groupId>pl.tymoteuszboba</groupId>
     <version>1.0</version>
   </parent>
 
