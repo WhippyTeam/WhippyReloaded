@@ -1,4 +1,4 @@
-package com.whippyteam.shared.command.annotation;
+package com.whippyteam.shared.command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

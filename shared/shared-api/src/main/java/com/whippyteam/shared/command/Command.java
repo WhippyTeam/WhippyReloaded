@@ -42,4 +42,22 @@ public interface Command {
     void setUsage(String name);
 
     void executeCommand(CommandSender sender, CommandContent context) throws Throwable;
+
+    interface CommandContent {
+        String[] getArgs();
+
+        String getParam(int index);
+
+        String getParam(int index, String def);
+
+        String getParams(int from, int to);
+
+        default int getParamsLength() {
+            return this.getArgs().length;
+        }
+
+        String getLabel();
+
+        Command getCommand();
+    }
 }

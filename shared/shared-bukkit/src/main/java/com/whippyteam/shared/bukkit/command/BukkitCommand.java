@@ -1,7 +1,6 @@
 package com.whippyteam.shared.bukkit.command;
 
 import com.whippyteam.shared.command.Command;
-import com.whippyteam.shared.command.CommandContent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.bukkit.command.CommandSender;

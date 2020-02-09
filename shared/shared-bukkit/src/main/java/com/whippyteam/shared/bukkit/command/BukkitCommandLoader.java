@@ -1,7 +1,7 @@
 package com.whippyteam.shared.bukkit.command;
 
 import com.whippyteam.shared.command.Command;
-import com.whippyteam.shared.command.annotation.CommandInfo;
+import com.whippyteam.shared.command.CommandInfo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

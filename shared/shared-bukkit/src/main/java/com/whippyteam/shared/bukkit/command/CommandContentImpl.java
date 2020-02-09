@@ -3,7 +3,7 @@ package com.whippyteam.shared.bukkit.command;
 import com.whippyteam.shared.command.Command;
 import java.util.List;
 
-public class CommandContentImpl implements com.whippyteam.shared.command.CommandContent {
+public class CommandContentImpl implements com.whippyteam.shared.command.Command.CommandContent {
 
     private final List<String> params;
     private final String label;

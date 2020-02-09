@@ -3,7 +3,7 @@ package com.whippyteam.shared.bukkit.command;
 import com.whippyteam.shared.bukkit.exception.CommandArgumentException;
 import com.whippyteam.shared.bukkit.exception.CommandPermissionException;
 import com.whippyteam.shared.bukkit.exception.CommandUnpermittedSenderException;
-import com.whippyteam.shared.command.CommandContent;
+import com.whippyteam.shared.command.Command.CommandContent;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.ChatColor;
@@ -66,7 +66,7 @@ public class BukkitCommandHandler implements CommandExecutor {
             sender.sendMessage(message);
         } catch (CommandPermissionException exception) {
             String message =
-                ChatColor.RED + "You don't have enough permission to use this command!";
+                ChatColor.RED + "You dont' have a permission to use this command!";
             sender.sendMessage(message);
         } catch (CommandArgumentException exception) {
             String message = ChatColor.translateAlternateColorCodes('&', "&7Usage: &e" +
