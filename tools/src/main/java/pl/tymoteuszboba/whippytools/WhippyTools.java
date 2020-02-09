@@ -9,12 +9,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.tymoteuszboba.whippytools.entity.WhippyPlayer;
 import pl.tymoteuszboba.whippytools.listener.PlayerJoinListener;
 import pl.tymoteuszboba.whippytools.listener.PlayerQuitListener;
 import pl.tymoteuszboba.whippytools.manager.WhippyPlayerManager;
 import pl.tymoteuszboba.whippytools.scheduler.DataSaveScheduler;
 import pl.tymoteuszboba.whippytools.storage.database.SqlHikariStorage;
 import pl.tymoteuszboba.whippytools.storage.database.transaction.WhippyPlayerTransactor;
+import pl.tymoteuszboba.whippytools.storage.exception.TransactionException;
 
 public class WhippyTools extends JavaPlugin {
 
@@ -39,23 +41,8 @@ public class WhippyTools extends JavaPlugin {
         this.registerListeners(new PlayerJoinListener(this),
             new PlayerQuitListener(this));
 
+        this.registerOnlinePlayers();
         this.registerSchedulers();
-    }
-
-    public SqlHikariStorage getDatabase() {
-        return this.database;
-    }
-
-    public FileConfiguration getMessageFile() {
-        return this.messageFile;
-    }
-
-    public WhippyPlayerManager getPlayerManager() {
-        return this.playerManager;
-    }
-
-    public WhippyPlayerTransactor getPlayerTransactor() {
-        return this.playerTransactor;
     }
 
     private FileConfiguration registerLocaleFile() {
@@ -94,12 +81,44 @@ public class WhippyTools extends JavaPlugin {
         }
     }
 
+    private void registerOnlinePlayers() {
+        if (Bukkit.getOnlinePlayers().size() == 0) {
+            return;
+        }
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            WhippyPlayer whippyPlayer = new WhippyPlayer(player.getUniqueId());
+            this.getPlayerManager().add(whippyPlayer);
+            try {
+                this.getPlayerTransactor().load(whippyPlayer);
+            } catch (TransactionException exception) {
+                exception.printStackTrace();
+            }
+        });
+    }
+
     private void registerSchedulers() {
         if (this.getConfig().getBoolean("data-saving-cycle", true)) {
             int dataSavingTime = this.getConfig().getInt("data-saving-time", 10);
             Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveScheduler(this),
                 0, dataSavingTime * 20 * 60);
         }
+    }
+
+    public SqlHikariStorage getDatabase() {
+        return this.database;
+    }
+
+    public FileConfiguration getMessageFile() {
+        return this.messageFile;
+    }
+
+    public WhippyPlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
+
+    public WhippyPlayerTransactor getPlayerTransactor() {
+        return this.playerTransactor;
     }
 
 }
