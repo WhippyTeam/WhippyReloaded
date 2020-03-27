@@ -1,4 +1,4 @@
-package com.whippyteam.whippytools.storage.exception;
+package com.whippyteam.commons.exception.storage;
 
 public class StorageException extends Exception {
 
