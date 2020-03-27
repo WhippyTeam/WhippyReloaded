@@ -1,4 +1,4 @@
-package com.whippyteam.whippytools.manager.exception;
+package com.whippyteam.bukkit.tools.exception.manager;
 
 public class ManagerException extends RuntimeException {
 

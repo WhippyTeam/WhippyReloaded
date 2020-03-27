@@ -28,7 +28,6 @@ public class WhippyPlayerManagerImpl implements WhippyPlayerManager {
 
     public Optional<WhippyPlayer> get(UUID identifier) {
         Validate.notNull(identifier, "Identifier cannot be null!");
-
         return Optional.ofNullable(this.uuidPlayerMap.get(identifier));
     }
 
