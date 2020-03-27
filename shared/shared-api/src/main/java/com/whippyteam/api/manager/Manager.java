@@ -1,9 +1,9 @@
-package com.whippyteam.whippytools.manager;
+package com.whippyteam.api.manager;
 
 import java.util.Optional;
 import java.util.Set;
 
-public interface EntityManager<T, I> {
+public interface Manager<T, I> {
 
     Optional<T> get(String name);
 
@@ -13,6 +13,6 @@ public interface EntityManager<T, I> {
 
     void remove(T entity);
 
-    Set<T> getAllEntities();
+    Set<T> entrySet();
 
 }

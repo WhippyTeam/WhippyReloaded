@@ -1,31 +1,33 @@
-package com.whippyteam.whippytools.entity;
+package com.whippyteam.bukkit.tools.entity;
+
+import com.whippyteam.api.entity.WhippyPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.lang.ref.WeakReference;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
-public class WhippyPlayer implements IdentifableEntity<UUID> {
+public class WhippyPlayerImpl implements WhippyPlayer {
 
     private final UUID identifier;
     private WeakReference<Player> originalPlayer;
 
     private String name;
 
-    public WhippyPlayer(final UUID identifier) {
+    public WhippyPlayerImpl(final UUID identifier) {
         this.identifier = identifier;
         this.name = Bukkit.getPlayer(this.identifier).getName();
 
-        this.updateBukkitPlayer();
+        this.updatePlayerReference();
     }
 
-    public WhippyPlayer(final String name) {
+    public WhippyPlayerImpl(final String name) {
         this.name = name;
         this.identifier = UUID.nameUUIDFromBytes(("OfflinePlayer:" + this.name).getBytes(
             StandardCharsets.UTF_8));
 
-        this.updateBukkitPlayer();
+        this.updatePlayerReference();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class WhippyPlayer implements IdentifableEntity<UUID> {
             return this.originalPlayer.get();
         }
 
-        this.updateBukkitPlayer();
+        this.updatePlayerReference();
         return originalPlayer != null ? this.originalPlayer.get() : null;
     }
 
@@ -50,7 +52,7 @@ public class WhippyPlayer implements IdentifableEntity<UUID> {
         this.name = name;
     }
 
-    public void updateBukkitPlayer() {
+    public void updatePlayerReference() {
         if (Bukkit.getPlayer(this.identifier) != null) {
             this.originalPlayer = new WeakReference<>(Bukkit.getPlayer(this.identifier));
         }
