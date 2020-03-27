@@ -1,9 +1,10 @@
-package com.whippyteam.shared.bukkit.command;
+package com.whippyteam.bukkit.tools.command;
 
-import com.whippyteam.shared.command.Command;
+import com.whippyteam.api.command.Command;
+
 import java.util.List;
 
-public class CommandContentImpl implements com.whippyteam.shared.command.Command.CommandContent {
+public class CommandContentImpl implements com.whippyteam.api.command.Command.CommandContent {
 
     private final List<String> params;
     private final String label;

@@ -1,9 +1,10 @@
-package com.whippyteam.shared.bukkit.command;
+package com.whippyteam.bukkit.tools.command;
 
-import com.whippyteam.shared.command.Command;
+import com.whippyteam.api.command.Command;
+import org.bukkit.command.CommandSender;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import org.bukkit.command.CommandSender;
 
 public class BukkitCommand implements Command {
 
@@ -38,7 +39,6 @@ public class BukkitCommand implements Command {
         this.commandClassObject = commandClassObject;
     }
 
-    @Override
     public void executeCommand(CommandSender sender, CommandContent context) throws Throwable {
         if (this.getCommandMethod() == null) {
             return;

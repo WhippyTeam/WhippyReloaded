@@ -1,7 +1,6 @@
-package com.whippyteam.shared.command;
+package com.whippyteam.api.command;
 
 import java.lang.reflect.Method;
-import org.bukkit.command.CommandSender;
 
 public interface Command {
 
@@ -40,8 +39,6 @@ public interface Command {
     void setMaxArgs(int maxArgs);
 
     void setUsage(String name);
-
-    void executeCommand(CommandSender sender, CommandContent context) throws Throwable;
 
     interface CommandContent {
         String[] getArgs();

@@ -1,16 +1,17 @@
-package com.whippyteam.shared.bukkit.command;
+package com.whippyteam.bukkit.tools.command;
 
-import com.whippyteam.shared.bukkit.exception.CommandArgumentException;
-import com.whippyteam.shared.bukkit.exception.CommandPermissionException;
-import com.whippyteam.shared.bukkit.exception.CommandUnpermittedSenderException;
-import com.whippyteam.shared.command.Command.CommandContent;
-import java.util.Arrays;
-import java.util.List;
+import com.whippyteam.api.command.Command.CommandContent;
+import com.whippyteam.bukkit.tools.exception.command.CommandArgumentException;
+import com.whippyteam.bukkit.tools.exception.command.CommandPermissionException;
+import com.whippyteam.bukkit.tools.exception.command.CommandUnpermittedSenderException;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BukkitCommandHandler implements CommandExecutor {
 
@@ -55,7 +56,8 @@ public class BukkitCommandHandler implements CommandExecutor {
             }
 
             try {
-                content.getCommand().executeCommand(sender, content);
+                BukkitCommand command = (BukkitCommand) content.getCommand();
+                command.executeCommand(sender, content);
                 return true;
             } catch (Throwable throwable) {
                 throwable.printStackTrace();

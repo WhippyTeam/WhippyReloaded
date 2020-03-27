@@ -1,4 +1,4 @@
-package com.whippyteam.shared.bukkit.exception;
+package com.whippyteam.bukkit.tools.exception.command;
 
 public class CommandPermissionException extends CommandExecutionException {
 

@@ -1,21 +1,17 @@
-package com.whippyteam.shared.bukkit.command;
+package com.whippyteam.bukkit.tools.command;
 
-import com.whippyteam.shared.command.Command;
-import com.whippyteam.shared.command.CommandInfo;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import com.whippyteam.api.command.Command;
+import com.whippyteam.api.command.CommandInfo;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.plugin.Plugin;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * Loads all commands with suitable method.
