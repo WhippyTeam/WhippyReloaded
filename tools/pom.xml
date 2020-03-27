@@ -14,6 +14,15 @@
 
   <artifactId>whippytools</artifactId>
 
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>org.spigotmc</groupId>
@@ -47,7 +56,17 @@
 
     <dependency>
       <groupId>com.whippyteam</groupId>
+      <artifactId>shared-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.whippyteam</groupId>
       <artifactId>shared-bukkit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.whippyteam</groupId>
+      <artifactId>commons</artifactId>
     </dependency>
   </dependencies>
 
