@@ -9,8 +9,9 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>tools</module>
+    <module>commons</module>
     <module>shared</module>
+    <module>tools</module>
   </modules>
 
   <name>WhippyReloaded</name>
@@ -35,7 +36,7 @@
       <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
-        <version>1.14.4-R0.1-SNAPSHOT</version>
+        <version>1.15.2-R0.1-SNAPSHOT</version>
       </dependency>
 
       <!-- Libraries used to help with storage handling. -->
@@ -82,7 +83,21 @@
 
       <dependency>
         <groupId>com.whippyteam</groupId>
+        <artifactId>shared-api</artifactId>
+        <version>1.0</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.whippyteam</groupId>
         <artifactId>shared-bukkit</artifactId>
+        <version>1.0</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.whippyteam</groupId>
+        <artifactId>commons</artifactId>
         <version>1.0</version>
         <scope>compile</scope>
       </dependency>
@@ -90,11 +105,12 @@
   </dependencyManagement>
 
   <build>
+    <defaultGoal>clean install</defaultGoal>
     <finalName>WhippyTools ${project.version}</finalName>
 
     <resources>
       <resource>
-        <directory>${basedir}/src/main/resources</directory>
+        <directory>${project.basedir}/shared/shared-api/src/main/resources</directory>
         <filtering>true</filtering>
       </resource>
     </resources>
@@ -123,6 +139,15 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-remote-resources-plugin</artifactId>-->
+<!--        <version>1.7.0</version>-->
+<!--        <configuration>-->
+<!--          <resourceBundles></resourceBundles>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
 
 <!--  |!| We will need this plugin in the future. |!| -->
 <!--      <plugin>-->
