@@ -1,4 +1,4 @@
-package com.whippyteam.whippytools.helper;
+package com.whippyteam.commons.helper;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

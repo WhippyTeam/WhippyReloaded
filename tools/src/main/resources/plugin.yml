@@ -3,6 +3,6 @@ name: "WhippyTools"
 version: "1.0"
 api-version: "1.14"
 
-main: com.whippyteam.whippytools.WhippyTools
+main: com.whippyteam.bukkit.tools.WhippyTools
 
 author: WhippyTeam

@@ -1,26 +1,40 @@
-package com.whippyteam.whippytools.storage.database.transaction;
+package com.whippyteam.api.storage.database.mysql;
 
-import com.whippyteam.whippytools.WhippyTools;
-import com.whippyteam.whippytools.entity.WhippyPlayer;
-import com.whippyteam.whippytools.helper.UniqueIdHelper;
-import com.whippyteam.whippytools.storage.exception.StorageException;
-import com.whippyteam.whippytools.storage.exception.TransactionException;
+import com.whippyteam.api.ToolsPlugin;
+import com.whippyteam.api.entity.WhippyPlayer;
+import com.whippyteam.api.helper.EngineHelper;
+import com.whippyteam.api.manager.type.WhippyPlayerManager;
+import com.whippyteam.commons.exception.storage.ReadException;
+import com.whippyteam.commons.exception.storage.StorageException;
+import com.whippyteam.commons.helper.UniqueIdHelper;
+import com.whippyteam.commons.storage.database.SqlHikariStorage;
+import com.whippyteam.commons.storage.database.transaction.TransactionConsumer;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-public class WhippyPlayerTransactor {
+public class PlayerMySqlLoader implements MySqlStorage<WhippyPlayer> {
 
-    private final WhippyTools plugin;
+    private ToolsPlugin plugin;
+
+    private final SqlHikariStorage storage;
+    private final WhippyPlayerManager manager;
 
     private String tableName;
 
-    public WhippyPlayerTransactor(final WhippyTools plugin) {
+    public PlayerMySqlLoader(ToolsPlugin plugin, SqlHikariStorage storage) {
         this.plugin = plugin;
-        this.tableName = this.plugin.getConfig().getString("database.tableName", "WhippyTools");
+
+        this.storage = storage;
+        this.manager = (WhippyPlayerManager) plugin.getManager("whippyPlayer");
+        this.tableName = plugin.getWhippyConfig().getString("database.tableName", "WhippyTools");
     }
-    public void load(WhippyPlayer player) throws TransactionException {
+
+    public void load(WhippyPlayer player) throws ReadException {
         String query = new StringBuilder("SELECT * FROM `")
             .append(tableName)
             .append("` WHERE `uuid` = UNHEX('")
@@ -28,27 +42,30 @@ public class WhippyPlayerTransactor {
             .append("');")
             .toString();
 
-        Connection connection = this.plugin.getDatabase().getConnection();
+        Connection connection = storage.getConnection();
 
         try {
-            ResultSet resultSet = this.plugin.getDatabase().query(connection, query);
+            ResultSet resultSet = storage.query(connection, query);
 
             while (resultSet.next()) {
                 UUID uniqueId = UniqueIdHelper.getUuidFromBytes(resultSet.getBytes("uuid"));
 
-                player = this.plugin.getPlayerManager().get(uniqueId).orElseGet(() -> {
-                    WhippyPlayer newPlayer = new WhippyPlayer(uniqueId);
-                    this.plugin.getPlayerManager().add(newPlayer);
+                player = manager.get(uniqueId).orElseGet(() -> {
+                    Map<Class<?>, Object> paramsMap = new HashMap<>();
+                    paramsMap.put(UUID.class, uniqueId);
+                    WhippyPlayer newPlayer = EngineHelper.initiateObject(plugin, WhippyPlayer.class, "entity.WhippyPlayerImpl", paramsMap);
+                    manager.add(newPlayer);
 
                     return newPlayer;
                 });
+
                 player.setName(resultSet.getString("name"));
             }
 
-        } catch (SQLException | TransactionException exception) {
+        } catch (SQLException | ReadException exception) {
             exception.printStackTrace();
         } finally {
-            this.plugin.getDatabase().closeConnection(connection);
+            storage.closeConnection(connection);
         }
     }
 
@@ -72,13 +89,14 @@ public class WhippyPlayerTransactor {
         };
 
         try {
-            this.plugin.getDatabase().update(query, consumer);
+            storage.update(query, consumer);
         } catch (StorageException e) {
             e.printStackTrace();
         }
     }
 
-    public void checkTable() {
+    @Override
+    public void checkStructure() {
         String query = new StringBuilder("CREATE TABLE IF NOT EXISTS `")
             .append(tableName)
             .append("` (`uuid` BINARY(16) PRIMARY KEY NOT NULL,")
@@ -86,7 +104,7 @@ public class WhippyPlayerTransactor {
             .toString();
 
         try {
-            this.plugin.getDatabase().update(query);
+            storage.update(query);
         } catch (StorageException e) {
             e.printStackTrace();
         }

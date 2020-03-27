@@ -1,15 +1,16 @@
-package com.whippyteam.whippytools.storage.database;
+package com.whippyteam.commons.storage.database;
 
-import com.whippyteam.whippytools.storage.database.transaction.TransactionConsumer;
-import com.whippyteam.whippytools.storage.exception.StorageException;
-import com.whippyteam.whippytools.storage.exception.TransactionException;
+import com.whippyteam.commons.exception.storage.ReadException;
+import com.whippyteam.commons.exception.storage.StorageException;
+import com.whippyteam.commons.storage.database.transaction.TransactionConsumer;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.commons.lang3.Validate;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.apache.commons.lang.Validate;
 
 public class SqlHikariStorage {
 
@@ -38,26 +39,26 @@ public class SqlHikariStorage {
         }
     }
 
-    public Connection getConnection() throws TransactionException {
+    public Connection getConnection() throws ReadException {
         try {
             return this.source.getConnection();
         } catch (SQLException exception) {
-            throw new TransactionException(exception);
+            throw new ReadException(exception);
         }
     }
 
-    public void update(String query) throws TransactionException {
+    public void update(String query) throws ReadException {
         Connection connection = this.getConnection();
         try {
             connection.prepareStatement(query).executeUpdate();
         } catch (SQLException exception) {
-            throw new TransactionException(exception);
+            throw new ReadException(exception);
         } finally {
             this.closeConnection(connection);
         }
     }
 
-    public void update(String query, TransactionConsumer consumer) throws TransactionException {
+    public void update(String query, TransactionConsumer consumer) throws ReadException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -65,36 +66,36 @@ public class SqlHikariStorage {
 
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new TransactionException(exception);
+            throw new ReadException(exception);
         } finally {
             this.closeConnection(connection);
         }
     }
 
-    public ResultSet query(Connection connection, String query) throws TransactionException {
+    public ResultSet query(Connection connection, String query) throws ReadException {
         try {
             return connection.prepareStatement(query).executeQuery();
         } catch (SQLException exception) {
-            throw new TransactionException(exception, query);
+            throw new ReadException(exception, query);
         }
     }
 
-    public ResultSet query(Connection connection, String query, TransactionConsumer consumer) throws TransactionException {
+    public ResultSet query(Connection connection, String query, TransactionConsumer consumer) throws ReadException {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             consumer.accept(statement);
 
             return statement.executeQuery();
         } catch (SQLException exception) {
-            throw new TransactionException(exception, query);
+            throw new ReadException(exception, query);
         }
     }
 
-    public void closeConnection(Connection connection) throws TransactionException {
+    public void closeConnection(Connection connection) throws ReadException {
         try {
             connection.close();
         } catch (SQLException exception) {
-            throw new TransactionException(exception);
+            throw new ReadException(exception);
         }
     }
 }
