@@ -1,6 +1,6 @@
-package com.whippyteam.whippytools.system.i18n;
+package com.whippyteam.bukkit.tools.system.i18n;
 
-import com.whippyteam.whippytools.WhippyTools;
+import com.whippyteam.bukkit.tools.WhippyTools;
 import org.apache.commons.lang.Validate;
 
 public class MessageBundler {

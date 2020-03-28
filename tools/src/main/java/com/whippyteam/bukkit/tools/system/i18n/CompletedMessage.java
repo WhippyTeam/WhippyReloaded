@@ -1,6 +1,6 @@
-package com.whippyteam.whippytools.system.i18n;
+package com.whippyteam.bukkit.tools.system.i18n;
 
-import com.whippyteam.whippytools.system.i18n.enums.MessageTarget;
+import com.whippyteam.bukkit.tools.system.i18n.enums.MessageTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

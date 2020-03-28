@@ -1,4 +1,4 @@
-package com.whippyteam.whippytools.system.i18n.enums;
+package com.whippyteam.bukkit.tools.system.i18n.enums;
 
 public enum MessageTarget {
     CHAT,

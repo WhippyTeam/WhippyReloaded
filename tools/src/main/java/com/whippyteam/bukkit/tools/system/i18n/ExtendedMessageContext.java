@@ -1,8 +1,8 @@
-package com.whippyteam.whippytools.system.i18n;
+package com.whippyteam.bukkit.tools.system.i18n;
 
-import com.whippyteam.whippytools.WhippyTools;
-import com.whippyteam.whippytools.system.i18n.enums.ContextKey;
-import com.whippyteam.whippytools.system.i18n.enums.MessageTarget;
+import com.whippyteam.bukkit.tools.WhippyTools;
+import com.whippyteam.bukkit.tools.system.i18n.enums.ContextKey;
+import com.whippyteam.bukkit.tools.system.i18n.enums.MessageTarget;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
