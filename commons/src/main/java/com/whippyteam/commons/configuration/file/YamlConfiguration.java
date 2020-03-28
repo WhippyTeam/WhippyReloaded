@@ -187,7 +187,6 @@ public class YamlConfiguration extends FileConfiguration implements Storage<Yaml
         } catch (FileNotFoundException ignored) {
         } catch (IOException | InvalidConfigurationException ex) {
             logger.log(Level.SEVERE, "Cannot load " + file, ex);
-//            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
         }
 
         return config;
