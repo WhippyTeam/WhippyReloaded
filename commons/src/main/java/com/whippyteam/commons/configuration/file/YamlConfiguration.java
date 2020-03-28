@@ -178,16 +178,15 @@ public class YamlConfiguration extends FileConfiguration implements Storage<Yaml
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull File file) {
         Validate.notNull(file, "File cannot be null");
+        Logger logger = Logger.getLogger("WhippyTools");
 
         YamlConfiguration config = new YamlConfiguration();
 
         try {
             config.load(file);
         } catch (FileNotFoundException ignored) {
-        } catch (IOException ex) {
-            // TODO Add catch logging
-//            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-        } catch (InvalidConfigurationException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
+            logger.log(Level.SEVERE, "Cannot load " + file, ex);
 //            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
         }
 

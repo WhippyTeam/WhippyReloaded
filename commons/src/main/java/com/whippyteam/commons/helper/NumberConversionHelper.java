@@ -34,8 +34,7 @@ public final class NumberConversionHelper {
 
       try {
          return Integer.parseInt(object.toString());
-      } catch (NumberFormatException e) {
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException | NullPointerException ignored) {
       }
       return 0;
    }
@@ -47,8 +46,7 @@ public final class NumberConversionHelper {
 
       try {
          return Float.parseFloat(object.toString());
-      } catch (NumberFormatException e) {
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException | NullPointerException ignored) {
       }
       return 0;
    }
@@ -60,8 +58,7 @@ public final class NumberConversionHelper {
 
       try {
          return Double.parseDouble(object.toString());
-      } catch (NumberFormatException e) {
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException | NullPointerException ignored) {
       }
       return 0;
    }
@@ -73,8 +70,7 @@ public final class NumberConversionHelper {
 
       try {
          return Long.parseLong(object.toString());
-      } catch (NumberFormatException e) {
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException | NullPointerException ignored) {
       }
       return 0;
    }
@@ -86,8 +82,7 @@ public final class NumberConversionHelper {
 
       try {
          return Short.parseShort(object.toString());
-      } catch (NumberFormatException e) {
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException | NullPointerException ignored) {
       }
       return 0;
    }
@@ -99,8 +94,7 @@ public final class NumberConversionHelper {
 
       try {
          return Byte.parseByte(object.toString());
-      } catch (NumberFormatException e) {
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException | NullPointerException ignored) {
       }
       return 0;
    }

@@ -455,8 +455,7 @@ public class MemorySection implements ConfigurationSection {
             } else if (object instanceof String) {
                 try {
                     result.add(Integer.valueOf((String) object));
-                } catch (Exception ex) {
-                }
+                } catch (Exception ignored) {}
             } else if (object instanceof Character) {
                 result.add((int) (Character) object);
             } else if (object instanceof Number) {

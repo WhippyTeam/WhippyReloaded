@@ -48,7 +48,7 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
 
     @Override
     public void onEnable() {
-        // TODO registerMessageFile
+        // TODO register MessageFile
 //        messageFile = this.registerLocaleFile();
         this.registerManagerSelector();
         this.registerStorageSaver();
