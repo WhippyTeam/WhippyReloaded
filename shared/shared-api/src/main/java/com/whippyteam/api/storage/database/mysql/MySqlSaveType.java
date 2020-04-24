@@ -2,10 +2,9 @@ package com.whippyteam.api.storage.database.mysql;
 
 import com.whippyteam.api.ToolsPlugin;
 import com.whippyteam.api.storage.AbstractSaveType;
-import com.whippyteam.commons.storage.database.SqlHikariStorage;
-import com.whippyteam.commons.storage.system.Storage;
+import com.whippyteam.api.storage.Storage;
+import com.whippyteam.api.storage.database.mysql.system.SqlHikariStorage;
 import com.zaxxer.hikari.HikariConfig;
-
 import java.util.HashMap;
 import java.util.Map;
 

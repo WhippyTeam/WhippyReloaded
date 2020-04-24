@@ -9,7 +9,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>commons</module>
     <module>shared</module>
     <module>tools</module>
   </modules>
@@ -91,13 +90,6 @@
       <dependency>
         <groupId>com.whippyteam</groupId>
         <artifactId>shared-bukkit</artifactId>
-        <version>1.0</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>com.whippyteam</groupId>
-        <artifactId>commons</artifactId>
         <version>1.0</version>
         <scope>compile</scope>
       </dependency>

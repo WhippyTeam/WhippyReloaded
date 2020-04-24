@@ -3,13 +3,13 @@ package com.whippyteam.api.storage.database.mysql;
 import com.whippyteam.api.ToolsPlugin;
 import com.whippyteam.api.entity.WhippyPlayer;
 import com.whippyteam.api.helper.EngineHelper;
+import com.whippyteam.api.helper.UniqueIdHelper;
 import com.whippyteam.api.manager.type.WhippyPlayerManager;
-import com.whippyteam.commons.exception.storage.ReadException;
-import com.whippyteam.commons.exception.storage.StorageException;
-import com.whippyteam.commons.helper.UniqueIdHelper;
-import com.whippyteam.commons.storage.database.SqlHikariStorage;
-import com.whippyteam.commons.storage.database.transaction.TransactionConsumer;
-
+import com.whippyteam.api.storage.Storage;
+import com.whippyteam.api.storage.database.mysql.system.SqlHikariStorage;
+import com.whippyteam.api.storage.database.mysql.system.transaction.TransactionConsumer;
+import com.whippyteam.api.storage.exception.ReadException;
+import com.whippyteam.api.storage.exception.StorageException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayerMySqlLoader implements MySqlStorage<WhippyPlayer> {
+public class PlayerMySqlLoader implements Storage<WhippyPlayer> {
 
     private ToolsPlugin plugin;
 
@@ -96,7 +96,7 @@ public class PlayerMySqlLoader implements MySqlStorage<WhippyPlayer> {
     }
 
     @Override
-    public void checkStructure() {
+    public boolean checkIfCreated() {
         String query = new StringBuilder("CREATE TABLE IF NOT EXISTS `")
             .append(tableName)
             .append("` (`uuid` BINARY(16) PRIMARY KEY NOT NULL,")
@@ -105,8 +105,10 @@ public class PlayerMySqlLoader implements MySqlStorage<WhippyPlayer> {
 
         try {
             storage.update(query);
+            return true;
         } catch (StorageException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

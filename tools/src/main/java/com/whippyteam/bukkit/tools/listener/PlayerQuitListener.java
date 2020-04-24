@@ -2,9 +2,9 @@ package com.whippyteam.bukkit.tools.listener;
 
 import com.whippyteam.api.entity.WhippyPlayer;
 import com.whippyteam.api.manager.type.WhippyPlayerManager;
+import com.whippyteam.api.storage.Storage;
 import com.whippyteam.bukkit.tools.WhippyTools;
 import com.whippyteam.bukkit.tools.exception.manager.ManagerException;
-import com.whippyteam.commons.storage.system.Storage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

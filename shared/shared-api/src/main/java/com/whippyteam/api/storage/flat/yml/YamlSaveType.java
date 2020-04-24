@@ -1,15 +1,14 @@
 package com.whippyteam.api.storage.flat.yml;
 
 import com.whippyteam.api.ToolsPlugin;
+import com.whippyteam.api.configuration.file.YamlConfiguration;
 import com.whippyteam.api.helper.FileHelper;
 import com.whippyteam.api.storage.AbstractSaveType;
-import com.whippyteam.commons.configuration.file.YamlConfiguration;
-
 import java.io.File;
 
 public class YamlSaveType extends AbstractSaveType {
 
-    private ToolsPlugin plugin;
+    private final ToolsPlugin plugin;
 
     public YamlSaveType(final ToolsPlugin plugin) {
         this.plugin = plugin;
@@ -19,7 +18,10 @@ public class YamlSaveType extends AbstractSaveType {
     public void initializeImportantStorages() {
         File configFile = new File(this.plugin.getDataFolder(), "config.yml");
         this.initializeFile(configFile, "config");
-        FileHelper.saveResource(this.plugin, "config.yml", false);
+
+        if (!configFile.exists()) {
+            FileHelper.saveResource(this.plugin, "config.yml", false);
+        }
     }
 
     @Override

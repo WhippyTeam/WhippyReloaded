@@ -2,8 +2,8 @@ package com.whippyteam.bukkit.tools.scheduler;
 
 import com.whippyteam.api.entity.WhippyPlayer;
 import com.whippyteam.api.manager.type.WhippyPlayerManager;
+import com.whippyteam.api.storage.Storage;
 import com.whippyteam.bukkit.tools.WhippyTools;
-import com.whippyteam.commons.storage.system.Storage;
 import org.bukkit.Bukkit;
 
 public class DataSaveScheduler implements Runnable {

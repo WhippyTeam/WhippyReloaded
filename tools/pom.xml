@@ -63,11 +63,6 @@
       <groupId>com.whippyteam</groupId>
       <artifactId>shared-bukkit</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>com.whippyteam</groupId>
-      <artifactId>commons</artifactId>
-    </dependency>
   </dependencies>
 
 </project>
