@@ -81,13 +81,11 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
     }
 
     private void registerManagerSelector() {
-        this.logger.debug("Registering Manager Selector...");
         ManagerMapper mapper = new ManagerMapper();
         this.managerSelector = new BukkitManagerSelector(this, mapper);
     }
 
     private void registerStorageSaver() {
-        this.logger.debug("Registering Storage Saver...");
         StorageSaver saver = new StorageSaver(this, this.storageManager);
         saver.startPhaseLoading();
     }
