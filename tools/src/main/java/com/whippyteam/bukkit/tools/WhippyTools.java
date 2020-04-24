@@ -156,8 +156,6 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
 
     @Override
     public Storage getStorage(String saveType, String resource) {
-        // STOPSHIP: 28.03.2020
-
         Optional<AbstractSaveType> type = this.storageManager.getType(saveType);
         if (!type.isPresent()) {
             this.logger.warning("Save type \"" + saveType + "\" doesn't exist!");
