@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+allprojects {
+    group = pluginGroup
+    version = pluginVersion
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'java'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+project(':tools') {
+    dependencies {
+        compile project(':shared:shared-bukkit')
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [":tools/src/main/java"]
+        }
+        resources {
+            srcDirs = ["$projectDir/shared/shared-api/src/main/resources"]
+        }
+    }
+}

@@ -1,0 +1,16 @@
+plugins {
+    id 'groovy'
+}
+
+subprojects {
+    dependencies {
+        compile 'org.apache.commons:commons-lang3:3.10'
+        compile 'com.google.guava:guava:29.0-jre'
+    }
+}
+
+project(':shared:shared-bukkit') {
+    dependencies {
+        compile project(':shared:shared-api')
+    }
+}
