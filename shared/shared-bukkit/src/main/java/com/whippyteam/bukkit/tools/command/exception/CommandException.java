@@ -1,4 +1,4 @@
-package com.whippyteam.bukkit.tools.exception.command;
+package com.whippyteam.bukkit.tools.command.exception;
 
 public class CommandException extends RuntimeException {
 
