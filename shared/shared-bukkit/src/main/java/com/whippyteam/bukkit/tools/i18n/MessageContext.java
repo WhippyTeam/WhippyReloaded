@@ -1,7 +1,7 @@
-package com.whippyteam.bukkit.tools.system.i18n;
+package com.whippyteam.bukkit.tools.i18n;
 
-import com.whippyteam.bukkit.tools.WhippyTools;
-import com.whippyteam.bukkit.tools.system.i18n.enums.MessageTarget;
+import com.whippyteam.api.ToolsPlugin;
+import com.whippyteam.api.i18n.enums.MessageTarget;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -13,9 +13,9 @@ public class MessageContext {
 
     private char colorPrefix = '&';
 
-    MessageContext(final WhippyTools plugin, String key) {
+    MessageContext(final ToolsPlugin plugin, String key) {
         Validate.notNull(plugin, "Plugin cannot be null!");
-        this.value = plugin.getMessageFile().getString(key,
+        this.value = plugin.getWhippyConfig().getString(key,
             "String not found in language configuration.");
     }
 
