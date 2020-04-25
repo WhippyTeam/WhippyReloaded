@@ -55,6 +55,9 @@ public class CompletedMessage {
                 break;
             case TITLE_AND_SUBTITLE:
                 player.sendTitle(this.messageList[0], this.messageList[1], fadeIn, stay, fadeOut);
+            default:
+                throw new UnsupportedOperationException("If you want to use MessageTarget.CHAT, "
+                    + "you should use to(Player) method!");
         }
     }
 
@@ -82,6 +85,9 @@ public class CompletedMessage {
             case TITLE_AND_SUBTITLE:
                 Bukkit.getOnlinePlayers().forEach(player -> player
                     .sendTitle(this.messageList[0], this.messageList[1], fadeIn, stay, fadeOut));
+            default:
+                throw new UnsupportedOperationException("If you want to use MessageTarget.CHAT, "
+                    + "you should use toAllPlayers(Player) method!");
         }
     }
 
