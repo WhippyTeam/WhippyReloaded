@@ -29,14 +29,3 @@ project(':tools') {
         compile project(':shared:shared-bukkit')
     }
 }
-
-sourceSets {
-    main {
-        java {
-            srcDirs = [":tools/src/main/java"]
-        }
-        resources {
-            srcDirs = ["$projectDir/shared/shared-api/src/main/resources"]
-        }
-    }
-}
