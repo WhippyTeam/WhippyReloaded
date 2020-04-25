@@ -1,20 +1,24 @@
 package com.whippyteam.api.helper;
 
 import com.whippyteam.api.ToolsPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FileHelper {
 
     private static final Logger LOGGER = Logger.getLogger("WhippyTools");
 
-    public static void saveResource(final ToolsPlugin plugin, @NotNull String resourcePath, boolean replace) {
+    public static void saveResource(final ToolsPlugin plugin, @NotNull String resourcePath,
+        boolean replace) {
         if (resourcePath.equals("")) {
             throw new IllegalArgumentException("ResourcePath cannot be null or empty");
         }
@@ -22,12 +26,14 @@ public class FileHelper {
         resourcePath = resourcePath.replace('\\', '/');
         InputStream in = getResource(resourcePath);
         if (in == null) {
-            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found!");
+            throw new IllegalArgumentException(
+                "The embedded resource '" + resourcePath + "' cannot be found!");
         }
 
         File outFile = new File(plugin.getDataFolder(), resourcePath);
         int lastIndex = resourcePath.lastIndexOf('/');
-        File outDir = new File(plugin.getDataFolder(), resourcePath.substring(0, Math.max(lastIndex, 0)));
+        File outDir = new File(plugin.getDataFolder(),
+            resourcePath.substring(0, Math.max(lastIndex, 0)));
 
         if (!outDir.exists()) {
             outDir.mkdirs();
@@ -45,16 +51,17 @@ public class FileHelper {
                 in.close();
             } else {
                 LOGGER.log(Level.WARNING, "Could not save " +
-                        outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
+                    outFile.getName() + " to " + outFile + " because " + outFile.getName()
+                    + " already exists.");
             }
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Could not save " + outFile.getName() + " to " + outFile, ex);
+            plugin.getWhippyLogger()
+                .severe("Could not save " + outFile.getName() + " to " + outFile, ex);
         }
     }
 
     @Nullable
     public static InputStream getResource(@NotNull String filename) {
-
         try {
             URL url = FileHelper.class.getClassLoader().getResource(filename);
 
