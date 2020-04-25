@@ -1,6 +1,5 @@
 package com.whippyteam.bukkit.tools;
 
-import com.google.common.io.Files;
 import com.whippyteam.api.ManagerSelector;
 import com.whippyteam.api.ToolsLogger;
 import com.whippyteam.api.ToolsPlugin;
@@ -19,12 +18,9 @@ import com.whippyteam.bukkit.tools.listener.PlayerJoinListener;
 import com.whippyteam.bukkit.tools.listener.PlayerQuitListener;
 import com.whippyteam.bukkit.tools.manager.BukkitManagerSelector;
 import com.whippyteam.bukkit.tools.scheduler.DataSaveScheduler;
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,37 +43,14 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
 
     @Override
     public void onEnable() {
-        // TODO register MessageFile
-//        messageFile = this.registerLocaleFile();
         this.registerManagerSelector();
         this.registerStorageSaver();
 
         this.registerListeners(new PlayerJoinListener(this),
             new PlayerQuitListener(this));
-//
+
         this.registerOnlinePlayers();
         this.registerSchedulers();
-    }
-
-    private FileConfiguration registerLocaleFile() {
-        String locale = this.getConfig().getString("locale", "en");
-        File file = new File(this.getDataFolder(), "locale-" + locale + ".yml");
-
-        if (!file.exists()) {
-            try {
-                Files.createParentDirs(file);
-                file.createNewFile();
-            } catch (IOException exception) {
-                this.getLogger().severe("Error while trying to create locale files!");
-                exception.printStackTrace();
-            }
-
-            this.saveResource("locale-" + locale + ".yml", true);
-        }
-
-        FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
-        fileConfiguration.options().copyDefaults(true);
-        return fileConfiguration;
     }
 
     private void registerManagerSelector() {
@@ -105,7 +78,7 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
             WhippyPlayer whippyPlayer = new WhippyPlayerImpl(player.getUniqueId());
 
             Storage storage = this.getStorage(this.storageType.getName(),
-                    "whippyPlayer");
+                "whippyPlayer");
 
             WhippyPlayerManager manager = (WhippyPlayerManager) this.getManager("whippyPlayer");
             manager.add(whippyPlayer);
@@ -164,7 +137,8 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
 
         Storage storage = type.get().getStorageMap().get(resource);
         if (storage == null) {
-            this.logger.warning("Resource \"" + resource + "\" from type \"" + saveType + "\" doesn't exist!");
+            this.logger.warning(
+                "Resource \"" + resource + "\" from type \"" + saveType + "\" doesn't exist!");
             return null;
         }
         return storage;
