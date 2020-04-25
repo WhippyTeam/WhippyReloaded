@@ -1,0 +1,23 @@
+plugins {
+    id 'groovy'
+}
+
+apply from: "$rootDir/dependencies.gradle"
+
+archivesBaseName = "WhippyTools"
+
+repositories {
+    maven {
+        name = 'spigot-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+
+    maven {
+        name = 'sonatype-repo'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    compileOnly "org.spigotmc:spigot-api:$ver.spigot"
+}

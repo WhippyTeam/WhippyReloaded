@@ -1,0 +1,6 @@
+rootProject.name = 'WhippyReloaded'
+
+include ':shared'
+include ':tools'
+include ':shared:shared-api'
+include ':shared:shared-bukkit'
