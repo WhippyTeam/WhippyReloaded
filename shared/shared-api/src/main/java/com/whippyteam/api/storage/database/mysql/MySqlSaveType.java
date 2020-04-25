@@ -39,7 +39,11 @@ public class MySqlSaveType extends AbstractSaveType {
         hikariConfig.setPassword(this.plugin.getWhippyConfig().getString("database.password"));
         hikariConfig.setPoolName("WhippyTools-pool");
 
-        this.database = new SqlHikariStorage(hikariConfig);
+        try {
+            this.database = new SqlHikariStorage(hikariConfig);
+        } catch (Exception exception) {
+            this.plugin.getWhippyLogger().severe("Could not initialize MySQL driver!", exception);
+        }
     }
 
     @Override

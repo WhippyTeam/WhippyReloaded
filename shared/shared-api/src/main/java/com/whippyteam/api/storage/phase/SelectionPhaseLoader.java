@@ -3,7 +3,6 @@ package com.whippyteam.api.storage.phase;
 import com.whippyteam.api.ToolsPlugin;
 import com.whippyteam.api.storage.AbstractSaveType;
 import com.whippyteam.api.storage.manager.StorageManager;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +45,6 @@ public class SelectionPhaseLoader extends AbstractPhaseLoader {
             Optional<AbstractSaveType> type = this.manager.getType(stringType);
             if (type.isPresent()) {
                 this.setStorageType(type.get());
-                this.plugin.getWhippyLogger().info("Save type \"" + stringType + "\" has been set as the default save type!");
                 return;
             }
         }
@@ -68,9 +66,15 @@ public class SelectionPhaseLoader extends AbstractPhaseLoader {
     }
 
     public void setStorageType(AbstractSaveType type) {
-        type.setupEnvironment();
+        try {
+            type.setupEnvironment();
+        } catch (Exception exception) {
+            this.loadDefaultType();
+            return;
+        }
         type.initialize();
         this.plugin.setStorageType(type);
+        this.plugin.getWhippyLogger().info("Save type \"" + type.getName() + "\" has been set as the default save type!");
     }
 
 }

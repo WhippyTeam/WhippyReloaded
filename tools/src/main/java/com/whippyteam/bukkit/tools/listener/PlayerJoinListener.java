@@ -3,7 +3,6 @@ package com.whippyteam.bukkit.tools.listener;
 import com.whippyteam.api.entity.WhippyPlayer;
 import com.whippyteam.api.manager.type.WhippyPlayerManager;
 import com.whippyteam.api.storage.Storage;
-import com.whippyteam.api.storage.exception.ReadException;
 import com.whippyteam.bukkit.tools.WhippyTools;
 import com.whippyteam.bukkit.tools.entity.WhippyPlayerImpl;
 import org.bukkit.entity.Player;
@@ -37,8 +36,8 @@ public class PlayerJoinListener implements Listener {
         this.plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
                 this.playerStorage.load(customPlayer);
-            } catch (ReadException exception) {
-                exception.printStackTrace();
+            } catch (Exception exception) {
+                this.plugin.getWhippyLogger().severe("Could not read data from the player " + player.getName() + "!", exception);
             }
         });
     }

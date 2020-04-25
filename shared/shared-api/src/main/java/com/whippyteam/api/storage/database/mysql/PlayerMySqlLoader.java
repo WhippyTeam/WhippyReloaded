@@ -63,7 +63,7 @@ public class PlayerMySqlLoader implements Storage<WhippyPlayer> {
             }
 
         } catch (SQLException | ReadException exception) {
-            exception.printStackTrace();
+            this.plugin.getWhippyLogger().severe("Could not read data from the database!", exception);
         } finally {
             storage.closeConnection(connection);
         }
@@ -84,14 +84,14 @@ public class PlayerMySqlLoader implements Storage<WhippyPlayer> {
                 preparedStatement.setString(2, player.getName());
                 preparedStatement.setString(3, player.getName());
             } catch (SQLException exception) {
-                exception.printStackTrace();
+                this.plugin.getWhippyLogger().severe("Could not save data to the database!", exception);
             }
         };
 
         try {
             storage.update(query, consumer);
-        } catch (StorageException e) {
-            e.printStackTrace();
+        } catch (StorageException exception) {
+            this.plugin.getWhippyLogger().severe("Could not update data to the database!", exception);
         }
     }
 
@@ -106,8 +106,8 @@ public class PlayerMySqlLoader implements Storage<WhippyPlayer> {
         try {
             storage.update(query);
             return true;
-        } catch (StorageException e) {
-            e.printStackTrace();
+        } catch (StorageException exception) {
+            this.plugin.getWhippyLogger().severe("Could not check table structure in the database!", exception);
         }
         return false;
     }

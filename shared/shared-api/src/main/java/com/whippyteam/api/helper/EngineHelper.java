@@ -1,7 +1,6 @@
 package com.whippyteam.api.helper;
 
 import com.whippyteam.api.ToolsPlugin;
-
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class EngineHelper {
 
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
+            plugin.getWhippyLogger().severe("Could not find object implementation in path " + path + "!", exception);
         }
         return null;
     }

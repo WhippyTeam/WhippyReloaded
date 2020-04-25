@@ -4,7 +4,7 @@ import com.whippyteam.api.entity.WhippyPlayer;
 import com.whippyteam.api.manager.type.WhippyPlayerManager;
 import com.whippyteam.api.storage.Storage;
 import com.whippyteam.bukkit.tools.WhippyTools;
-import com.whippyteam.bukkit.tools.exception.manager.ManagerException;
+import com.whippyteam.bukkit.tools.manager.exception.ManagerException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

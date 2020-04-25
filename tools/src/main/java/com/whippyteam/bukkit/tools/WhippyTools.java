@@ -11,7 +11,6 @@ import com.whippyteam.api.manager.type.WhippyPlayerManager;
 import com.whippyteam.api.storage.AbstractSaveType;
 import com.whippyteam.api.storage.Storage;
 import com.whippyteam.api.storage.StorageSaver;
-import com.whippyteam.api.storage.exception.ReadException;
 import com.whippyteam.api.storage.manager.StorageManager;
 import com.whippyteam.bukkit.tools.entity.WhippyPlayerImpl;
 import com.whippyteam.bukkit.tools.listener.PlayerJoinListener;
@@ -81,8 +80,8 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
             manager.add(whippyPlayer);
             try {
                 storage.load(whippyPlayer);
-            } catch (ReadException exception) {
-                exception.printStackTrace();
+            } catch (Exception exception) {
+                this.getWhippyLogger().severe("Could not load data from the player " + player.getName() + "!", exception);
             }
         });
     }
