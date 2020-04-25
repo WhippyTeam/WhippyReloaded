@@ -20,15 +20,12 @@ import com.whippyteam.bukkit.tools.manager.BukkitManagerSelector;
 import com.whippyteam.bukkit.tools.scheduler.DataSaveScheduler;
 import java.util.Optional;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class WhippyTools extends JavaPlugin implements ToolsPlugin {
 
     private ToolsLogger logger;
-
-    private FileConfiguration messageFile;
 
     private ManagerSelector managerSelector;
 
@@ -152,10 +149,6 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
     @Override
     public void setStorageType(AbstractSaveType type) {
         this.storageType = type;
-    }
-
-    public FileConfiguration getMessageFile() {
-        return this.messageFile;
     }
 
 }
