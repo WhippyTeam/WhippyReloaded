@@ -10,6 +10,9 @@ operators:
   game: "game"
   console: "console"
 
+spawn:
+  teleporting-to-spawn: "&7Teleporting to spawn..."
+  set-spawn-default: "&7Spawn has been set."
+
 random:
   commandListIndex: "All Whippy commands"
-
