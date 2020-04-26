@@ -1,6 +1,7 @@
 package com.whippyteam.bukkit.tools.i18n;
 
 import com.whippyteam.api.ToolsPlugin;
+import com.whippyteam.api.configuration.file.FileConfiguration;
 import com.whippyteam.api.i18n.enums.MessageTarget;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -15,7 +16,8 @@ public class MessageContext {
 
     MessageContext(final ToolsPlugin plugin, String key) {
         Validate.notNull(plugin, "Plugin cannot be null!");
-        this.value = plugin.getWhippyConfig().getString(key,
+        FileConfiguration languageFile = (FileConfiguration) plugin.getStorage("yml", "locale");
+        this.value = languageFile.getString(key,
             "String not found in language configuration.");
     }
 

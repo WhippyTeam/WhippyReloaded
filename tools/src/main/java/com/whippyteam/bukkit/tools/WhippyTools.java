@@ -12,6 +12,9 @@ import com.whippyteam.api.storage.AbstractSaveType;
 import com.whippyteam.api.storage.Storage;
 import com.whippyteam.api.storage.StorageSaver;
 import com.whippyteam.api.storage.manager.StorageManager;
+import com.whippyteam.bukkit.tools.command.BukkitCommandLoader;
+import com.whippyteam.bukkit.tools.command.SetSpawnCommand;
+import com.whippyteam.bukkit.tools.command.SpawnCommand;
 import com.whippyteam.bukkit.tools.entity.WhippyPlayerImpl;
 import com.whippyteam.bukkit.tools.listener.PlayerJoinListener;
 import com.whippyteam.bukkit.tools.listener.PlayerQuitListener;
@@ -25,7 +28,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class WhippyTools extends JavaPlugin implements ToolsPlugin {
 
     private ToolsLogger logger;
-
     private ManagerSelector managerSelector;
 
     private AbstractSaveType storageType;
@@ -41,6 +43,10 @@ public class WhippyTools extends JavaPlugin implements ToolsPlugin {
     public void onEnable() {
         this.registerManagerSelector();
         this.registerStorageSaver();
+
+        BukkitCommandLoader commandLoader = new BukkitCommandLoader(this);
+        commandLoader.registerCommand(new SetSpawnCommand(this),
+            new SpawnCommand(this));
 
         this.registerListeners(new PlayerJoinListener(this),
             new PlayerQuitListener(this));
