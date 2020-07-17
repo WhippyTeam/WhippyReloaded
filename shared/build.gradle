@@ -4,7 +4,7 @@ plugins {
 
 subprojects {
     dependencies {
-        compile 'org.apache.commons:commons-lang3:3.10'
+        compile 'org.apache.commons:commons-lang3:3.11'
         compile 'com.google.guava:guava:29.0-jre'
     }
 }
