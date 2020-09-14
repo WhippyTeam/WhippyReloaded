@@ -8,5 +8,5 @@ dependencies {
     compile 'org.slf4j:slf4j-simple:1.7.30'
 
     compile 'org.jetbrains:annotations:19.0.0'
-    compile 'org.yaml:snakeyaml:1.26'
+    compile 'org.yaml:snakeyaml:1.27'
 }
