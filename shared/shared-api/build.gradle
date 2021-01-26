@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    compile 'com.zaxxer:HikariCP:4.0.0'
+    compile 'com.zaxxer:HikariCP:4.0.1'
     compile 'org.slf4j:slf4j-api:1.7.30'
     compile 'org.slf4j:slf4j-simple:1.7.30'
     compile 'org.jetbrains:annotations:20.1.0'
