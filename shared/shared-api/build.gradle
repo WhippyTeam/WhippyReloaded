@@ -7,5 +7,5 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.30'
     compile 'org.slf4j:slf4j-simple:1.7.30'
     compile 'org.jetbrains:annotations:20.1.0'
-    compile 'org.yaml:snakeyaml:1.27'
+    compile 'org.yaml:snakeyaml:1.28'
 }
